@@ -10,6 +10,7 @@ public class Application {
     public static EntityManager em = emf.createEntityManager();
     public static void main(String[] args) {
         System.out.println("Hello World!");
-
+        //Util.saveFakeIUser(20, em);
+        Util.saveFakeTratte(20,em);
     }
 }

@@ -7,7 +7,6 @@ import java.util.UUID;
 
 @Entity
 @Table(name="utenti")
-
 public class Utenti {
     @Id
     @GeneratedValue
@@ -25,8 +24,7 @@ public class Utenti {
 
     }
 
-    public Utenti(List<Tessere> tessere, String nome, String cognome, boolean autorizzazione) {
-        this.tessere = tessere;
+    public Utenti(String nome, String cognome, boolean autorizzazione) {
         this.nome = nome;
         this.cognome = cognome;
         this.autorizzazione = autorizzazione;
