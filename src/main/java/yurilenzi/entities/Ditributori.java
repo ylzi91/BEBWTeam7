@@ -7,17 +7,28 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "luogo_acquisto")
+@Table(name = "rivenditori")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "tipo_distributore")
-
-public class Ditributori {
+public abstract class Ditributori {
     @Id
-    @GeneratedValue
-    private UUID id;
-    
-    @ManyToMany (mappedBy = "distributori_id")
-    private List<Biglietti> bigliettoList;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID idRivenditore;
+
+
+    public Ditributori(){
+    }
+
+    public UUID getId() {
+        return idRivenditore;
+    }
+
+    @Override
+    public String toString() {
+        return "Ditributori{" +
+                "id=" + idRivenditore +
+                '}';
+    }
 }
 
 

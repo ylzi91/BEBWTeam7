@@ -14,10 +14,68 @@ public class Utenti {
     @Column(name="id_utente")
     private UUID utenteId;
 
-    @OneToMany(mappedBy = "id_utente")
+    @OneToMany(mappedBy = "utenti")
     private List<Tessere> tessere;
 
     private String nome;
     private String cognome;
     private boolean autorizzazione;
+
+    public Utenti(){
+
+    }
+
+    public Utenti(List<Tessere> tessere, String nome, String cognome, boolean autorizzazione) {
+        this.tessere = tessere;
+        this.nome = nome;
+        this.cognome = cognome;
+        this.autorizzazione = autorizzazione;
+    }
+
+    public UUID getUtenteId() {
+        return utenteId;
+    }
+
+    public List<Tessere> getTessere() {
+        return tessere;
+    }
+
+    public void setTessere(List<Tessere> tessere) {
+        this.tessere = tessere;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getCognome() {
+        return cognome;
+    }
+
+    public void setCognome(String cognome) {
+        this.cognome = cognome;
+    }
+
+    public boolean isAutorizzazione() {
+        return autorizzazione;
+    }
+
+    public void setAutorizzazione(boolean autorizzazione) {
+        this.autorizzazione = autorizzazione;
+    }
+
+    @Override
+    public String toString() {
+        return "Utenti{" +
+                "utenteId=" + utenteId +
+                ", tessere=" + tessere +
+                ", nome='" + nome + '\'' +
+                ", cognome='" + cognome + '\'' +
+                ", autorizzazione=" + autorizzazione +
+                '}';
+    }
 }

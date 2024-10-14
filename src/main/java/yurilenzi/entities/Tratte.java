@@ -10,16 +10,68 @@ import java.util.UUID;
 
 public class Tratte {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name="tratte")
     private UUID tratteId;
 
-    @OneToMany(mappedBy = "id_tratte")
-    private List<Mezzi> listaMezzi;
     private String zonaPartenza;
     private String capolinea;
     private Double tempoPrevisto;
+    private Double tempoEffettivo;
+
+    public Tratte(String zonaPartenza, String capolinea, Double tempoPrevisto, Double tempoEffettivo) {
+
+        this.zonaPartenza = zonaPartenza;
+        this.capolinea = capolinea;
+        this.tempoPrevisto = tempoPrevisto;
+        this.tempoEffettivo = tempoEffettivo;
+    }
+
+    public UUID getTratteId() {
+        return tratteId;
+    }
 
 
+    public String getZonaPartenza() {
+        return zonaPartenza;
+    }
 
+    public void setZonaPartenza(String zonaPartenza) {
+        this.zonaPartenza = zonaPartenza;
+    }
+
+    public String getCapolinea() {
+        return capolinea;
+    }
+
+    public void setCapolinea(String capolinea) {
+        this.capolinea = capolinea;
+    }
+
+    public Double getTempoPrevisto() {
+        return tempoPrevisto;
+    }
+
+    public void setTempoPrevisto(Double tempoPrevisto) {
+        this.tempoPrevisto = tempoPrevisto;
+    }
+
+    public Double getTempoEffettivo() {
+        return tempoEffettivo;
+    }
+
+    public void setTempoEffettivo(Double tempoEffettivo) {
+        this.tempoEffettivo = tempoEffettivo;
+    }
+
+    @Override
+    public String toString() {
+        return "Tratte{" +
+                "tratteId=" + tratteId +
+                ", zonaPartenza='" + zonaPartenza + '\'' +
+                ", capolinea='" + capolinea + '\'' +
+                ", tempoPrevisto=" + tempoPrevisto +
+                ", tempoEffettivo=" + tempoEffettivo +
+                '}';
+    }
 }
