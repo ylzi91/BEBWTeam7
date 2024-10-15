@@ -5,6 +5,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import yurilenzi.dao.GenericDAO;
 import yurilenzi.entities.*;
+import yurilenzi.exceptions.NotFoundException;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -56,10 +57,10 @@ public class Util {
         }
     }
 
-    public static void saveBigliettoSingolo(EntityManager entityManager){
+    public static void saveBigliettoSingolo(EntityManager entityManager, String idDistributore, TipologiaMezzo tipologiaMezzo) throws NotFoundException {
         GenericDAO genericDAO = new GenericDAO(entityManager);
-        //BigliettoSingolo bigliettoSingolo = new BigliettoSingolo(LocalDate.now(), genericDAO.findById(); false, TipologiaMezzo.AUTOBUS );
-        //genericDAO.save(bigliettoSingolo);
+        BigliettoSingolo bigliettoSingolo = new BigliettoSingolo(LocalDate.now(), genericDAO.findById(Ditributori.class, idDistributore), false, tipologiaMezzo);
+        genericDAO.save(bigliettoSingolo);
     }
 
 }
