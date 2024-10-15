@@ -4,6 +4,7 @@ import com.github.javafaker.Faker;
 import jakarta.persistence.EntityManager;
 import yurilenzi.dao.BigliettoSingoloDAO;
 import yurilenzi.dao.GenericDAO;
+import yurilenzi.dao.MezziDAO;
 import yurilenzi.dao.TrattaDAO;
 import yurilenzi.entities.*;
 import yurilenzi.exceptions.NotFoundException;
@@ -94,5 +95,20 @@ public class Util {
             System.out.println("Non puoi salire su questo mezzo");
     }
 
+    public static void salvaNuovaManutenzione(EntityManager em, String idMezzo) throws NotFoundException {
+        GenericDAO genericDAO = new GenericDAO(em);
+        int random = new Random().nextInt(0,4);
+        Mezzi mezzoTrov = genericDAO.findById(Mezzi.class, idMezzo);
+
+        Supplier<Manutenzioni> manutenzioniSupplier = () -> new Manutenzioni(LocalDate.now(), LocalDate.now().plusDays(random), mezzoTrov);
+        mezzoTrov.setInServizio(false);
+        genericDAO.save(manutenzioniSupplier.get());
+
+    }
+
+    public static void setManutenzioneFinita(EntityManager em, LocalDate dataOggi){
+        MezziDAO mezziDAO = new MezziDAO(em);
+        mezziDAO.cercaFineManutenzione(dataOggi);
+    }
 
 }
