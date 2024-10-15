@@ -2,7 +2,9 @@ package yurilenzi;
 
 import com.github.javafaker.Faker;
 import jakarta.persistence.EntityManager;
+import yurilenzi.dao.BigliettoSingoloDAO;
 import yurilenzi.dao.GenericDAO;
+import yurilenzi.dao.TrattaDAO;
 import yurilenzi.entities.*;
 import yurilenzi.exceptions.NotFoundException;
 
@@ -16,7 +18,8 @@ public class Util {
     public static void saveFakeIUser(int numberOfUser, EntityManager em){
 
         Supplier<Utenti> utentiSupplier = () -> {
-            return new Utenti(faker.name().firstName(), faker.name().lastName(), false);
+            Boolean random = new Random().nextBoolean();
+            return new Utenti(faker.name().firstName(), faker.name().lastName(), random);
         };
         GenericDAO genericDAO = new GenericDAO(em);
         for (int i = 0; i < numberOfUser; i++) {
@@ -57,9 +60,42 @@ public class Util {
     public static void saveBigliettoSingolo(EntityManager entityManager, String idDistributore, TipologiaMezzo tipologiaMezzo) throws NotFoundException {
         GenericDAO genericDAO = new GenericDAO(entityManager);
         BigliettoSingolo bigliettoSingolo = new BigliettoSingolo(LocalDate.now(), genericDAO.findById(Distributori.class, idDistributore), false, tipologiaMezzo);
+        BigliettoSingolo bigliettoSingolo = new BigliettoSingolo(LocalDate.now(), genericDAO.findById(Ditributori.class, idDistributore), tipologiaMezzo);
         genericDAO.save(bigliettoSingolo);
     }
 
+
+
+    public static void SaveMezzi(EntityManager em){
+
+        GenericDAO genericDAO = new GenericDAO(em);
+        TrattaDAO trattaDAO = new TrattaDAO(em);
+
+        trattaDAO.getListTratte().forEach(tratte -> {
+            int random = new Random().nextInt(0,2);
+
+            TipologiaMezzo[] mezzi = TipologiaMezzo.values();
+            TipologiaMezzo mezzoTrovato = mezzi[random];
+
+            Supplier<Mezzi> mezziSupplier = () -> new Mezzi(mezzoTrovato, true, tratte);
+            genericDAO.save(mezziSupplier.get());
+        });
+    }
+
+    public static void vidimaBiglietto(EntityManager em , String idMezzo, String idBiglietto) throws NotFoundException {
+        GenericDAO genericDAO = new GenericDAO(em);
+        BigliettoSingoloDAO bigliettoSingoloDAO = new BigliettoSingoloDAO(em);
+        Mezzi mezzoTrov = genericDAO.findById(Mezzi.class, idMezzo);
+        BigliettoSingolo bigliettoSingoloTrov = genericDAO.findById(BigliettoSingolo.class, idBiglietto);
+        bigliettoSingoloTrov.setGiornoDiVidimatura();
+        if(bigliettoSingoloTrov.getTipologiaMezzo() == mezzoTrov.getTipologiaMezzo())
+            if(!bigliettoSingoloTrov.isConvalidato())
+                bigliettoSingoloDAO.upadateVidimato(bigliettoSingoloTrov, mezzoTrov);
+            else
+                System.out.println("Hai già timbrato questo biglietto");
+        else
+            System.out.println("Non puoi salire su questo mezzo");
+    }
 
 
 }
