@@ -11,7 +11,7 @@ import java.util.List;
 @Entity
 public class Abbonamento extends Biglietti {
     @ManyToOne
-    @JoinColumn(name = "id_tessera", nullable = false)
+    @JoinColumn(name = "id_tessera")
     private Tessere tessere;
 
     private TipologiaAbbonamento tipologiaAbbonamento;
@@ -19,8 +19,9 @@ public class Abbonamento extends Biglietti {
     public Abbonamento(){
 
     }
-    public Abbonamento(LocalDate dataEmissione, LocalDate dataScadenza, List<Ditributori> categories, Tessere tessere, TipologiaAbbonamento tipologiaAbbonamento) {
-        super(dataEmissione, dataScadenza, categories);
+
+    public Abbonamento(LocalDate dataEmissione, Ditributori ditributori, Tessere tessere, TipologiaAbbonamento tipologiaAbbonamento) {
+        super(dataEmissione, ditributori);
         this.tessere = tessere;
         this.tipologiaAbbonamento = tipologiaAbbonamento;
     }

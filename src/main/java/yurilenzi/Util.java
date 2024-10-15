@@ -2,10 +2,11 @@ package yurilenzi;
 
 import com.github.javafaker.Faker;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
 import yurilenzi.dao.GenericDAO;
-import yurilenzi.entities.Tratte;
-import yurilenzi.entities.Utenti;
+import yurilenzi.entities.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -29,13 +30,36 @@ public class Util {
 
         Supplier<Tratte> tratteSupplier = () -> {
             double randomTrattaTeorica = new Random().nextDouble(10,60);
-            double randomTrattaEffettiva = new Random().nextDouble(randomTrattaTeorica, randomTrattaTeorica + 20);
+            double randomTrattaEffettiva = new Random().nextDouble(randomTrattaTeorica -10, randomTrattaTeorica + 20);
             return new Tratte(faker.address().streetAddress(), faker.address().streetAddress(), randomTrattaTeorica, randomTrattaEffettiva);
         };
         GenericDAO genericDAO = new GenericDAO(em);
         for (int i = 0; i < numberOfTratte; i++) {
             genericDAO.save(tratteSupplier.get());
         }
+    }
+
+    public static void SaveFakeDistributori(int numeroDistributori, EntityManager em){
+        Supplier<DistributoreAutomatico> distributoreAutomaticoSupplier = () ->{
+            Random random = new Random();
+            return new DistributoreAutomatico(random.nextBoolean());
+        };
+
+        Supplier<RivenditoreFisico> rivenditoreFisicoSupplier = () -> {
+            return new RivenditoreFisico(faker.name().title());
+        };
+        GenericDAO genericDAO = new GenericDAO(em);
+        for (int i = 0; i < numeroDistributori; i++) {
+            genericDAO.save(distributoreAutomaticoSupplier.get());
+            genericDAO.save(rivenditoreFisicoSupplier.get());
+
+        }
+    }
+
+    public static void saveBigliettoSingolo(EntityManager entityManager){
+        GenericDAO genericDAO = new GenericDAO(entityManager);
+        //BigliettoSingolo bigliettoSingolo = new BigliettoSingolo(LocalDate.now(), genericDAO.findById(); false, TipologiaMezzo.AUTOBUS );
+        //genericDAO.save(bigliettoSingolo);
     }
 
 }

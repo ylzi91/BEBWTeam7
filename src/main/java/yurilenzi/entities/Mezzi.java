@@ -21,9 +21,6 @@ public class Mezzi {
     @JoinColumn(name="id_tratta")
     private Tratte tratte;
 
-    @OneToMany(mappedBy="mezzi")
-    private List<BigliettoSingolo> listaBiglietti;
-
 
     // costruttore vuoto
     public Mezzi() {}
@@ -31,12 +28,12 @@ public class Mezzi {
     // costruttore
 
 
-    public Mezzi(TipologiaMezzo tipologiaMezzo, boolean inServizio, Capienza capienza, Tratte tratte, List<BigliettoSingolo> listaBiglietti) {
+    public Mezzi(TipologiaMezzo tipologiaMezzo, boolean inServizio, Capienza capienza, Tratte tratte) {
         this.tipologiaMezzo = tipologiaMezzo;
         this.inServizio = inServizio;
         this.capienza = capienza;
         this.tratte = tratte;
-        this.listaBiglietti = listaBiglietti;
+
     }
 
     public UUID getMezziId() {
@@ -75,13 +72,6 @@ public class Mezzi {
         this.tratte = tratte;
     }
 
-    public List<BigliettoSingolo> getListaBiglietti() {
-        return listaBiglietti;
-    }
-
-    public void setListaBiglietti(List<BigliettoSingolo> listaBiglietti) {
-        this.listaBiglietti = listaBiglietti;
-    }
 
     @Override
     public String toString() {
@@ -91,7 +81,6 @@ public class Mezzi {
                 ", inServizio=" + inServizio +
                 ", capienza=" + capienza +
                 ", tratte=" + tratte +
-                ", listaBiglietti=" + listaBiglietti +
                 '}';
     }
 }

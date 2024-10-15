@@ -12,23 +12,21 @@ import java.util.UUID;
 public abstract class Biglietti {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
-    private LocalDate dataEmissione;
-    private LocalDate dataScadenza;
-    @ManyToMany
-    @JoinTable(name = "luogo_acquisto",
-            joinColumns = @JoinColumn(name = "biglietto_id", nullable = false),
-            inverseJoinColumns = @JoinColumn(name = "distributori_id", nullable = false)
-    )
-    private List<Ditributori> categories;
+    protected UUID id;
+    protected LocalDate dataEmissione;
+    protected LocalDate dataScadenza;
+    @ManyToOne
+    @JoinColumn(name = "id_distributore")
+    protected Ditributori ditributori;
+
 
     public Biglietti(){
 
     }
-    public Biglietti(LocalDate dataEmissione, LocalDate dataScadenza, List<Ditributori> categories) {
+    public Biglietti(LocalDate dataEmissione, Ditributori ditributori) {
         this.dataEmissione = dataEmissione;
-        this.dataScadenza = dataScadenza;
-        this.categories = categories;
+        this.dataScadenza = dataEmissione.plusDays(10);
+        this.ditributori = ditributori;
     }
 
     public UUID getId() {
@@ -51,13 +49,6 @@ public abstract class Biglietti {
         this.dataScadenza = dataScadenza;
     }
 
-    public List<Ditributori> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(List<Ditributori> categories) {
-        this.categories = categories;
-    }
 
     @Override
     public String toString() {
@@ -65,7 +56,6 @@ public abstract class Biglietti {
                 "id=" + id +
                 ", dataEmissione=" + dataEmissione +
                 ", dataScadenza=" + dataScadenza +
-                ", categories=" + categories +
                 '}';
     }
 }

@@ -1,9 +1,6 @@
 package yurilenzi.entities;
 
-import jakarta.persistence.DiscriminatorValue;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -12,28 +9,19 @@ import java.util.List;
 @Entity
 public class BigliettoSingolo extends Biglietti {
 
-    @ManyToOne
-    @JoinColumn(name="id_mezzo")
-    private Mezzi mezzi;
 
     private boolean convalidato;
+    @Enumerated(EnumType.STRING)
+    private TipologiaMezzo tipologiaMezzo;
 
     public BigliettoSingolo(){
 
     }
 
-    public BigliettoSingolo(LocalDate dataEmissione, LocalDate dataScadenza, List<Ditributori> categories, Mezzi mezzi, boolean convalidato) {
-        super(dataEmissione, dataScadenza, categories);
-        this.mezzi = mezzi;
+    public BigliettoSingolo(LocalDate dataEmissione, Ditributori ditributori, boolean convalidato, TipologiaMezzo tipologiaMezzo) {
+        super(dataEmissione, ditributori);
         this.convalidato = convalidato;
-    }
-
-    public Mezzi getMezzi() {
-        return mezzi;
-    }
-
-    public void setMezzi(Mezzi mezzi) {
-        this.mezzi = mezzi;
+        this.tipologiaMezzo = tipologiaMezzo;
     }
 
     public boolean isConvalidato() {
@@ -47,7 +35,6 @@ public class BigliettoSingolo extends Biglietti {
     @Override
     public String toString() {
         return "BigliettoSingolo{" +
-                "mezzi=" + mezzi +
                 ", convalidato=" + convalidato +
                 "} " + super.toString();
     }
