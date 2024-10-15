@@ -4,6 +4,7 @@ import com.github.javafaker.Faker;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import yurilenzi.dao.GenericDAO;
+import yurilenzi.dao.TrattaDAO;
 import yurilenzi.entities.*;
 import yurilenzi.exceptions.NotFoundException;
 
@@ -62,5 +63,22 @@ public class Util {
         BigliettoSingolo bigliettoSingolo = new BigliettoSingolo(LocalDate.now(), genericDAO.findById(Ditributori.class, idDistributore), false, tipologiaMezzo);
         genericDAO.save(bigliettoSingolo);
     }
+
+    public static void SaveMezzi(EntityManager em){
+
+        GenericDAO genericDAO = new GenericDAO(em);
+        TrattaDAO trattaDAO = new TrattaDAO(em);
+
+        trattaDAO.getListTratte().forEach(tratte -> {
+            int random = new Random().nextInt(0,2);
+
+            TipologiaMezzo[] mezzi = TipologiaMezzo.values();
+            TipologiaMezzo mezzoTrovato = mezzi[random];
+
+            Supplier<Mezzi> mezziSupplier = () -> new Mezzi(mezzoTrovato, true, tratte);
+            genericDAO.save(mezziSupplier.get());
+        });
+    }
+
 
 }

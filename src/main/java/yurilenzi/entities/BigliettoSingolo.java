@@ -13,6 +13,10 @@ public class BigliettoSingolo extends Biglietti {
     private boolean convalidato;
     @Enumerated(EnumType.STRING)
     private TipologiaMezzo tipologiaMezzo;
+    @ManyToOne
+    @JoinColumn(name = "id_mezzo")
+    private Mezzi mezzi;
+    private boolean vidimato;
 
     public BigliettoSingolo(){
 
@@ -22,6 +26,7 @@ public class BigliettoSingolo extends Biglietti {
         super(dataEmissione, ditributori);
         this.convalidato = convalidato;
         this.tipologiaMezzo = tipologiaMezzo;
+        this.vidimato = false;
     }
 
     public boolean isConvalidato() {
@@ -30,6 +35,33 @@ public class BigliettoSingolo extends Biglietti {
 
     public void setConvalidato(boolean convalidato) {
         this.convalidato = convalidato;
+    }
+
+    public Mezzi getMezzi() {
+        return mezzi;
+    }
+
+    public void setMezzi(Mezzi mezzi) {
+        if(this.tipologiaMezzo != mezzi.getTipologiaMezzo())
+            System.out.println("Non puoi salire su questo mezzo");
+        else
+        this.mezzi = mezzi;
+    }
+
+    public TipologiaMezzo getTipologiaMezzo() {
+        return tipologiaMezzo;
+    }
+
+    public void setTipologiaMezzo(TipologiaMezzo tipologiaMezzo) {
+        this.tipologiaMezzo = tipologiaMezzo;
+    }
+
+    public boolean isVidimato() {
+        return vidimato;
+    }
+
+    public void setVidimato(boolean vidimato) {
+        this.vidimato = vidimato;
     }
 
     @Override

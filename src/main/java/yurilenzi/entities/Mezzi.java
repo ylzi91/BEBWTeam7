@@ -13,9 +13,11 @@ public class Mezzi {
     @Column(name="id_mezzo")
     private UUID mezziId;
 
+    @Enumerated(EnumType.STRING)
     private TipologiaMezzo tipologiaMezzo;
     private boolean inServizio;
-    private Capienza capienza;
+
+    private int capienza;
 
     @ManyToOne
     @JoinColumn(name="id_tratta")
@@ -28,10 +30,12 @@ public class Mezzi {
     // costruttore
 
 
-    public Mezzi(TipologiaMezzo tipologiaMezzo, boolean inServizio, Capienza capienza, Tratte tratte) {
+    public Mezzi(TipologiaMezzo tipologiaMezzo, boolean inServizio, Tratte tratte) {
         this.tipologiaMezzo = tipologiaMezzo;
+        if(tipologiaMezzo == TipologiaMezzo.TRAM) this.capienza = 45;
+        else if (tipologiaMezzo == TipologiaMezzo.AUTOBUS) this.capienza = 60;
         this.inServizio = inServizio;
-        this.capienza = capienza;
+
         this.tratte = tratte;
 
     }
@@ -56,11 +60,11 @@ public class Mezzi {
         this.inServizio = inServizio;
     }
 
-    public Capienza getCapienza() {
+    public int getCapienza() {
         return capienza;
     }
 
-    public void setCapienza(Capienza capienza) {
+    public void setCapienza(int capienza) {
         this.capienza = capienza;
     }
 

@@ -19,6 +19,10 @@ public class Tratte {
     private Double tempoPrevisto;
     private Double tempoEffettivo;
 
+    public Tratte(){
+
+    }
+
     public Tratte(String zonaPartenza, String capolinea, Double tempoPrevisto, Double tempoEffettivo) {
 
         this.zonaPartenza = zonaPartenza;
