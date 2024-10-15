@@ -20,7 +20,8 @@ public class Util {
     public static void saveFakeIUser(int numberOfUser, EntityManager em){
 
         Supplier<Utenti> utentiSupplier = () -> {
-            return new Utenti(faker.name().firstName(), faker.name().lastName(), false);
+            Boolean random = new Random().nextBoolean();
+            return new Utenti(faker.name().firstName(), faker.name().lastName(), random);
         };
         GenericDAO genericDAO = new GenericDAO(em);
         for (int i = 0; i < numberOfUser; i++) {
