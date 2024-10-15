@@ -2,15 +2,13 @@ package yurilenzi;
 
 import com.github.javafaker.Faker;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.TypedQuery;
+import yurilenzi.dao.BigliettoSingoloDAO;
 import yurilenzi.dao.GenericDAO;
 import yurilenzi.dao.TrattaDAO;
 import yurilenzi.entities.*;
 import yurilenzi.exceptions.NotFoundException;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 import java.util.function.Supplier;
@@ -61,7 +59,7 @@ public class Util {
 
     public static void saveBigliettoSingolo(EntityManager entityManager, String idDistributore, TipologiaMezzo tipologiaMezzo) throws NotFoundException {
         GenericDAO genericDAO = new GenericDAO(entityManager);
-        BigliettoSingolo bigliettoSingolo = new BigliettoSingolo(LocalDate.now(), genericDAO.findById(Ditributori.class, idDistributore), false, tipologiaMezzo);
+        BigliettoSingolo bigliettoSingolo = new BigliettoSingolo(LocalDate.now(), genericDAO.findById(Ditributori.class, idDistributore), tipologiaMezzo);
         genericDAO.save(bigliettoSingolo);
     }
 
@@ -79,6 +77,21 @@ public class Util {
             Supplier<Mezzi> mezziSupplier = () -> new Mezzi(mezzoTrovato, true, tratte);
             genericDAO.save(mezziSupplier.get());
         });
+    }
+
+    public static void vidimaBiglietto(EntityManager em , String idMezzo, String idBiglietto) throws NotFoundException {
+        GenericDAO genericDAO = new GenericDAO(em);
+        BigliettoSingoloDAO bigliettoSingoloDAO = new BigliettoSingoloDAO(em);
+        Mezzi mezzoTrov = genericDAO.findById(Mezzi.class, idMezzo);
+        BigliettoSingolo bigliettoSingoloTrov = genericDAO.findById(BigliettoSingolo.class, idBiglietto);
+        bigliettoSingoloTrov.setGiornoDiVidimatura();
+        if(bigliettoSingoloTrov.getTipologiaMezzo() == mezzoTrov.getTipologiaMezzo())
+            if(!bigliettoSingoloTrov.isConvalidato())
+                bigliettoSingoloDAO.upadateVidimato(bigliettoSingoloTrov, mezzoTrov);
+            else
+                System.out.println("Hai già timbrato questo biglietto");
+        else
+            System.out.println("Non puoi salire su questo mezzo");
     }
 
 

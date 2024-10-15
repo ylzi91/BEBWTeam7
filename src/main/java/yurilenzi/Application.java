@@ -22,6 +22,12 @@ public class Application {
 //        } catch (NotFoundException e) {
 //            System.out.println(e.getMessage());
 //        }
-        Util.SaveMezzi(em);
+       // Util.SaveMezzi(em);
+
+//        try {
+//            Util.vidimaBiglietto(em, "07c685ba-be3a-4436-8e69-4663afa78e0e", "b4489c97-63ec-4a2f-863f-e03b9cee0e14");
+//        } catch (NotFoundException e) {
+//            System.out.println(e.getMessage());
+//        }
     }
 }

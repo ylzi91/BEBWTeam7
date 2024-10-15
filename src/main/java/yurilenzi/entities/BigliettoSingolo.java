@@ -16,17 +16,16 @@ public class BigliettoSingolo extends Biglietti {
     @ManyToOne
     @JoinColumn(name = "id_mezzo")
     private Mezzi mezzi;
-    private boolean vidimato;
+    private LocalDate giornoDiVidimatura;
 
     public BigliettoSingolo(){
 
     }
 
-    public BigliettoSingolo(LocalDate dataEmissione, Ditributori ditributori, boolean convalidato, TipologiaMezzo tipologiaMezzo) {
+    public BigliettoSingolo(LocalDate dataEmissione, Ditributori ditributori, TipologiaMezzo tipologiaMezzo) {
         super(dataEmissione, ditributori);
-        this.convalidato = convalidato;
+        this.convalidato = false;
         this.tipologiaMezzo = tipologiaMezzo;
-        this.vidimato = false;
     }
 
     public boolean isConvalidato() {
@@ -35,6 +34,17 @@ public class BigliettoSingolo extends Biglietti {
 
     public void setConvalidato(boolean convalidato) {
         this.convalidato = convalidato;
+    }
+
+    public LocalDate getGiornoDiVidimatura() {
+        return giornoDiVidimatura;
+    }
+
+    public void setGiornoDiVidimatura() {
+        if(dataScadenza.isBefore(LocalDate.now()))
+            System.out.println("Biglietto Scaduto");
+        else
+            this.giornoDiVidimatura = LocalDate.now();
     }
 
     public Mezzi getMezzi() {
@@ -54,14 +64,6 @@ public class BigliettoSingolo extends Biglietti {
 
     public void setTipologiaMezzo(TipologiaMezzo tipologiaMezzo) {
         this.tipologiaMezzo = tipologiaMezzo;
-    }
-
-    public boolean isVidimato() {
-        return vidimato;
-    }
-
-    public void setVidimato(boolean vidimato) {
-        this.vidimato = vidimato;
     }
 
     @Override
