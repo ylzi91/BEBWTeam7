@@ -3,7 +3,6 @@ package yurilenzi.entities;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-import java.util.List;
 
 
 @Entity
@@ -18,8 +17,8 @@ public class BigliettoSingolo extends Biglietti {
 
     }
 
-    public BigliettoSingolo(LocalDate dataEmissione, Ditributori ditributori, boolean convalidato, TipologiaMezzo tipologiaMezzo) {
-        super(dataEmissione, ditributori);
+    public BigliettoSingolo(LocalDate dataEmissione, Distributori distributori, boolean convalidato, TipologiaMezzo tipologiaMezzo) {
+        super(dataEmissione, distributori);
         this.convalidato = convalidato;
         this.tipologiaMezzo = tipologiaMezzo;
     }

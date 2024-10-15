@@ -3,12 +3,10 @@ package yurilenzi.entities;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 
-import java.util.List;
-
 
 @Entity
 @DiscriminatorValue("rivenditore_fisico")
-public class RivenditoreFisico extends Ditributori {
+public class RivenditoreFisico extends Distributori {
 
         private String Nome;
 

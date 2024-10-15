@@ -3,7 +3,6 @@ package yurilenzi.entities;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -17,16 +16,16 @@ public abstract class Biglietti {
     protected LocalDate dataScadenza;
     @ManyToOne
     @JoinColumn(name = "id_distributore")
-    protected Ditributori ditributori;
+    protected Distributori distributori;
 
 
     public Biglietti(){
 
     }
-    public Biglietti(LocalDate dataEmissione, Ditributori ditributori) {
+    public Biglietti(LocalDate dataEmissione, Distributori distributori) {
         this.dataEmissione = dataEmissione;
         this.dataScadenza = dataEmissione.plusDays(10);
-        this.ditributori = ditributori;
+        this.distributori = distributori;
     }
 
     public UUID getId() {
