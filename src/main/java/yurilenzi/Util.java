@@ -14,21 +14,30 @@ import java.util.Locale;
 import java.util.Random;
 import java.util.function.Supplier;
 
-public class Util {
-    public static Faker faker = new Faker(Locale.ITALY);
-    public static void saveFakeIUser(int numberOfUser, EntityManager em){
+import static yurilenzi.Application.em;
 
+public class Util {
+
+
+    public static Faker faker = new Faker(Locale.ITALY);
+    public static GenericDAO genericDAO = new GenericDAO();
+    public static MezziDAO mezziDAO = new MezziDAO(em);
+    public static TrattaDAO trattaDAO = new TrattaDAO(em);
+    public static BigliettoSingoloDAO bigliettoSingoloDAO = new BigliettoSingoloDAO(em);
+
+
+    public static void saveFakeIUser(int numberOfUser){
         Supplier<Utenti> utentiSupplier = () -> {
             Boolean random = new Random().nextBoolean();
             return new Utenti(faker.name().firstName(), faker.name().lastName(), random);
         };
-        GenericDAO genericDAO = new GenericDAO(em);
+
         for (int i = 0; i < numberOfUser; i++) {
             genericDAO.save(utentiSupplier.get());
         }
     }
 
-    public static void saveFakeTratte(int numberOfTratte, EntityManager em){
+    public static void saveFakeTratte(int numberOfTratte){
 
         Supplier<Tratte> tratteSupplier = () -> {
             double randomTrattaTeorica = new Random().nextDouble(10,30);
@@ -36,13 +45,12 @@ public class Util {
             double randomTrattaEffettiva = new Random().nextDouble((randomTrattaTeorica * randomNumeroGiri)-10,(randomTrattaTeorica * randomNumeroGiri)+10);
             return new Tratte(faker.address().streetAddress(), randomTrattaEffettiva, randomTrattaTeorica, faker.address().streetAddress(), randomNumeroGiri);
         };
-        GenericDAO genericDAO = new GenericDAO(em);
         for (int i = 0; i < numberOfTratte; i++) {
             genericDAO.save(tratteSupplier.get());
         }
     }
 
-    public static void SaveFakeDistributori(int numeroDistributori, EntityManager em){
+    public static void SaveFakeDistributori(int numeroDistributori){
         Supplier<DistributoreAutomatico> distributoreAutomaticoSupplier = () ->{
             Random random = new Random();
             return new DistributoreAutomatico(random.nextBoolean());
@@ -51,7 +59,7 @@ public class Util {
         Supplier<RivenditoreFisico> rivenditoreFisicoSupplier = () -> {
             return new RivenditoreFisico(faker.name().title());
         };
-        GenericDAO genericDAO = new GenericDAO(em);
+
         for (int i = 0; i < numeroDistributori; i++) {
             genericDAO.save(distributoreAutomaticoSupplier.get());
             genericDAO.save(rivenditoreFisicoSupplier.get());
@@ -59,42 +67,32 @@ public class Util {
         }
     }
 
-    public static void saveBigliettoSingolo(EntityManager entityManager, String idDistributore, TipologiaMezzo tipologiaMezzo) throws NotFoundException {
-        GenericDAO genericDAO = new GenericDAO(entityManager);
-        BigliettoSingolo bigliettoSingolo = new BigliettoSingolo(LocalDate.now(), genericDAO.findById(Ditributori.class, idDistributore), false, tipologiaMezzo);
-        BigliettoSingolo bigliettoSingolo2 = new BigliettoSingolo(LocalDate.now(), genericDAO.findById(Ditributori.class, idDistributore), true, tipologiaMezzo);
+    public static void saveBigliettoSingolo(String idDistributore, TipologiaMezzo tipologiaMezzo) throws NotFoundException {
+
+        BigliettoSingolo bigliettoSingolo = new BigliettoSingolo(LocalDate.now(), genericDAO.findById(Ditributori.class, idDistributore), tipologiaMezzo);
         genericDAO.save(bigliettoSingolo);
     }
 
-
-
-    public static void SaveMezzi(EntityManager em){
-
-        GenericDAO genericDAO = new GenericDAO(em);
-        TrattaDAO trattaDAO = new TrattaDAO(em);
+    public static void SaveMezzi(){
 
         trattaDAO.getListTratte().forEach(tratte -> {
             int random = new Random().nextInt(0,2);
-
             TipologiaMezzo[] mezzi = TipologiaMezzo.values();
             TipologiaMezzo mezzoTrovato = mezzi[random];
-
             Supplier<Mezzi> mezziSupplier = () -> new Mezzi(mezzoTrovato, true, tratte);
             genericDAO.save(mezziSupplier.get());
         });
+
     }
 
-    public static <T> void aggiungiMezziInSostituzione(int numeroMezzi, EntityManager em,T tipoMezzo){
-        GenericDAO genericDAO = new GenericDAO(em);
+    public static <T> void aggiungiMezzi(int numeroMezzi, T tipoMezzo){
         for (int i = 0; i < numeroMezzi; i++) {
             Supplier<Mezzi> mezziSupplier = () -> new Mezzi((TipologiaMezzo) tipoMezzo, false, null);
             genericDAO.save(mezziSupplier.get());
         }
     }
 
-    public static void vidimaBiglietto(EntityManager em , String idMezzo, String idBiglietto) throws NotFoundException {
-        GenericDAO genericDAO = new GenericDAO(em);
-        BigliettoSingoloDAO bigliettoSingoloDAO = new BigliettoSingoloDAO(em);
+    public static void vidimaBiglietto(String idMezzo, String idBiglietto) throws NotFoundException {
         Mezzi mezzoTrov = genericDAO.findById(Mezzi.class, idMezzo);
         BigliettoSingolo bigliettoSingoloTrov = genericDAO.findById(BigliettoSingolo.class, idBiglietto);
         bigliettoSingoloTrov.setGiornoDiVidimatura();
@@ -107,12 +105,9 @@ public class Util {
             System.out.println("Non puoi salire su questo mezzo");
     }
 
-    public static void salvaNuovaManutenzione(EntityManager em, String idMezzo) throws NotFoundException {
-        GenericDAO genericDAO = new GenericDAO(em);
-
+    public static void salvaNuovaManutenzione(String idMezzo) throws NotFoundException {
         int random = new Random().nextInt(0,4);
         Mezzi mezzoTrov = genericDAO.findById(Mezzi.class, idMezzo);
-        MezziDAO mezziDAO = new MezziDAO(em);
         mezziDAO.mezzoFuoriServizio(mezzoTrov);
 
         Supplier<Manutenzioni> manutenzioniSupplier = () -> new Manutenzioni(LocalDate.now(), LocalDate.now().plusDays(random), mezzoTrov);
@@ -122,9 +117,7 @@ public class Util {
     }
 
 
-    public static void aggiungiTrattaAdUnMezzo(EntityManager em, String idMezzo, String idTratta) throws NotFoundException {
-        GenericDAO genericDAO = new GenericDAO(em);
-        MezziDAO mezziDAO = new MezziDAO(em);
+    public static void aggiungiTrattaAdUnMezzo(String idMezzo, String idTratta) throws NotFoundException {
         Mezzi mezzoTrov = genericDAO.findById(Mezzi.class, idMezzo);
         Tratte trattaTrov = genericDAO.findById(Tratte.class, idTratta);
         if(mezzoTrov.getTratte() == null){
@@ -134,9 +127,7 @@ public class Util {
     }
 
 
-    public static void calcolaMediaMezzoById(EntityManager em, String idMezzo) throws NotFoundException {
-        GenericDAO genericDAO = new GenericDAO(em);
-        MezziDAO mezziDAO = new MezziDAO(em);
+    public static void calcolaMediaMezzoById(String idMezzo) throws NotFoundException {
         Mezzi mezzoTrovato = genericDAO.findById(Mezzi.class, idMezzo);
         System.out.println(mezziDAO.calcolaTempoMedio(mezzoTrovato));
     }
