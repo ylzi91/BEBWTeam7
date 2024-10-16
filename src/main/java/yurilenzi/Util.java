@@ -97,18 +97,16 @@ public class Util {
 
     public static void salvaNuovaManutenzione(EntityManager em, String idMezzo) throws NotFoundException {
         GenericDAO genericDAO = new GenericDAO(em);
+
         int random = new Random().nextInt(0,4);
         Mezzi mezzoTrov = genericDAO.findById(Mezzi.class, idMezzo);
+        MezziDAO mezziDAO = new MezziDAO(em);
+        mezziDAO.mezzoInManutenzione(mezzoTrov);
 
         Supplier<Manutenzioni> manutenzioniSupplier = () -> new Manutenzioni(LocalDate.now(), LocalDate.now().plusDays(random), mezzoTrov);
-        mezzoTrov.setInServizio(false);
+
         genericDAO.save(manutenzioniSupplier.get());
 
-    }
-
-    public static void setManutenzioneFinita(EntityManager em, LocalDate dataOggi){
-        MezziDAO mezziDAO = new MezziDAO(em);
-        mezziDAO.cercaFineManutenzione(dataOggi);
     }
 
 }

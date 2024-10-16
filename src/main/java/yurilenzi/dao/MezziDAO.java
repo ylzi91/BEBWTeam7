@@ -2,6 +2,7 @@ package yurilenzi.dao;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import yurilenzi.entities.Mezzi;
 
@@ -16,16 +17,24 @@ public class MezziDAO {
         this.entityManager = entityManager;
     }
 
-    public void cercaFineManutenzione(LocalDate data){
-        data = LocalDate.now();
+
+    public void mezzoInManutenzione(Mezzi mezzo){
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
-        TypedQuery<Mezzi> query = entityManager.createQuery("update Mezzi m set Mezzi m.inServizio = true where m.manutenzioni.dataFineManutenzione >= :data ", Mezzi.class);
-        query.setParameter("data", data);
+        Query query = entityManager.createQuery("update Mezzi m set m.inServizio = false where m.mezziId = :idmezzoDaCambiare");
+        query.setParameter("idmezzoDaCambiare", mezzo.getMezziId());
         query.executeUpdate();
         transaction.commit();
-        System.out.println("I mezzi sono tornati in servizio");
 
-
+        System.out.println("Il mezzo " + mezzo.getMezziId() + " è fuori servizio");
+    }
+    public void mezzoDiNuovoInServizio(Mezzi mezzo){
+        EntityTransaction transaction = entityManager.getTransaction();
+        transaction.begin();
+        Query query = entityManager.createQuery("update Mezzi m set m.inServizio = true where m.mezziId = :idmezzoDaCambiare");
+        query.setParameter("idmezzoDaCambiare", mezzo.getMezziId());
+        query.executeUpdate();
+        transaction.commit();
+        System.out.println("Il mezzo " + mezzo.getMezziId() + " è tornato in servizio");
     }
 }
