@@ -47,12 +47,12 @@ public class GenericDAO {
     }
 
     public List<DistributoreAutomatico> distributoriAttivi() {
-        TypedQuery<DistributoreAutomatico> query = entityManager.createQuery("SELECT d FROM DistributoreAutomatico d WHERE d.attivo=true", DistributoreAutomatico.class);
+        TypedQuery<DistributoreAutomatico> query = em.createQuery("SELECT d FROM DistributoreAutomatico d WHERE d.attivo=true", DistributoreAutomatico.class);
         return query.getResultList();
     }
 
     public List<DistributoreAutomatico> distributoriFuoriServizio() {
-        TypedQuery<DistributoreAutomatico> query = entityManager.createQuery("SELECT d FROM DistribureAutomatico d WHERE d.attivo=false", DistributoreAutomatico.class);
+        TypedQuery<DistributoreAutomatico> query = em.createQuery("SELECT d FROM DistribureAutomatico d WHERE d.attivo=false", DistributoreAutomatico.class);
         return query.getResultList();
     }
 
@@ -65,17 +65,20 @@ public class GenericDAO {
         System.out.println("Inserisci la data di fine (formato YYYY-MM-DD): ");
         LocalDate endDate = LocalDate.parse(scanner.next());
 
-        TypedQuery<Biglietti> query = entityManager.createQuery("SELECT b FROM Biglietti b WHERE b.distributore.id = :distributoreId AND b.dataEmissione BETWEEN :startDate AND :endDate", Biglietti.class);
+        TypedQuery<Biglietti> query = em.createQuery("SELECT b FROM Biglietti b WHERE b.distributore.id = :distributoreId AND b.dataEmissione BETWEEN :startDate AND :endDate", Biglietti.class);
         query.setParameter("rivenditoreId", rivenditioreId);
         query.setParameter("startDate", startDate);
         query.setParameter("endDate", endDate);
         return query.getResultList();
     }
     public Utenti  verificaId(UUID id) {
-        return entityManager.find(Utenti.class, id);
+        return em.find(Utenti.class, id);
     }
 
-
+    public <T> List<T> listagenerica(Class<T>classeGenerica){
+        TypedQuery<T> query = em.createQuery("select g from " + classeGenerica.getSimpleName() + " g", classeGenerica);
+        return query.getResultList();
+    }
 
 
 }
