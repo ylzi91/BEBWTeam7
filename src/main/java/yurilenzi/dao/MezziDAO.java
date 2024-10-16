@@ -3,11 +3,8 @@ package yurilenzi.dao;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Query;
-import jakarta.persistence.TypedQuery;
 import yurilenzi.entities.Mezzi;
-
-import java.time.LocalDate;
-import java.util.Locale;
+import yurilenzi.entities.Tratte;
 
 public class MezziDAO {
 
@@ -18,14 +15,13 @@ public class MezziDAO {
     }
 
 
-    public void mezzoInManutenzione(Mezzi mezzo){
+    public void mezzoFuoriServizio(Mezzi mezzo){
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
-        Query query = entityManager.createQuery("update Mezzi m set m.inServizio = false where m.mezziId = :idmezzoDaCambiare");
+        Query query = entityManager.createQuery("update Mezzi m set m.inServizio = false, m.tratte = null where m.mezziId = :idmezzoDaCambiare");
         query.setParameter("idmezzoDaCambiare", mezzo.getMezziId());
         query.executeUpdate();
         transaction.commit();
-
         System.out.println("Il mezzo " + mezzo.getMezziId() + " è fuori servizio");
     }
     public void mezzoDiNuovoInServizio(Mezzi mezzo){
@@ -37,4 +33,16 @@ public class MezziDAO {
         transaction.commit();
         System.out.println("Il mezzo " + mezzo.getMezziId() + " è tornato in servizio");
     }
+
+    public void setTratta(Mezzi mezzo, Tratte tratta){
+        EntityTransaction transaction = entityManager.getTransaction();
+        transaction.begin();
+        Query query = entityManager.createQuery("update Mezzi m set m.tratte = :nuovaTratta where m.mezziId = :idMezzoDaAggiungere");
+        query.setParameter("nuovaTratta", tratta);
+        query.setParameter("idMezzoDaAggiungere", mezzo.getMezziId());
+        query.executeUpdate();
+        transaction.commit();
+        System.out.println("Il mezzo " + mezzo.getMezziId() + " è stato aggiunta alla tratta " + tratta.getTratteId());
+    }
+
 }

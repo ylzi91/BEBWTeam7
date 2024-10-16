@@ -9,8 +9,8 @@ import java.util.UUID;
 public class Manutenzioni {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id_mezzi")
-    private UUID idMezzi;
+    @Column(name = "id_manutenzione")
+    private UUID idManutenzione;
     private LocalDate dataInizioManutenzione;
     private LocalDate dataFineManutenzione;
     @ManyToOne
@@ -31,7 +31,7 @@ public class Manutenzioni {
     }
 
     public UUID getIdMezzi() {
-        return idMezzi;
+        return idManutenzione;
     }
 
     public void setDataInizioManutenzione(LocalDate dataInizioManutenzione) {
@@ -57,7 +57,7 @@ public class Manutenzioni {
     @Override
     public String toString() {
         return "Manutenzioni{" +
-                "idMezzi=" + idMezzi +
+                "idMezzi=" + idManutenzione +
                 ", dataInizioManutenzione=" + dataInizioManutenzione +
                 ", dataFineManutenzione=" + dataFineManutenzione +
                 ", mezzo=" + mezzo +

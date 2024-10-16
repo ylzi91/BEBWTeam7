@@ -30,10 +30,12 @@ public class Application {
 //            System.out.println(e.getMessage());
 //        }
 
-        try {
-            Util.salvaNuovaManutenzione(em, "07c685ba-be3a-4436-8e69-4663afa78e0e");
-        } catch (NotFoundException e) {
-            System.out.println(e.getMessage());
-        }
+//        try {
+//            Util.salvaNuovaManutenzione(em, "07c685ba-be3a-4436-8e69-4663afa78e0e");
+//        } catch (NotFoundException e) {
+//            System.out.println(e.getMessage());
+//        }
+       // Util.aggiungiMezziInSostituzione(3, em, TipologiaMezzo.AUTOBUS);
+
     }
 }
