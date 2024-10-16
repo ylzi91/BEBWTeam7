@@ -61,8 +61,8 @@ public class Util {
 
     public static void saveBigliettoSingolo(EntityManager entityManager, String idDistributore, TipologiaMezzo tipologiaMezzo) throws NotFoundException {
         GenericDAO genericDAO = new GenericDAO(entityManager);
-        BigliettoSingolo bigliettoSingolo = new BigliettoSingolo(LocalDate.now(), genericDAO.findById(Distributori.class, idDistributore), false, tipologiaMezzo);
-        BigliettoSingolo bigliettoSingolo = new BigliettoSingolo(LocalDate.now(), genericDAO.findById(Ditributori.class, idDistributore), tipologiaMezzo);
+        BigliettoSingolo bigliettoSingolo = new BigliettoSingolo(LocalDate.now(), genericDAO.findById(Ditributori.class, idDistributore), false, tipologiaMezzo);
+        BigliettoSingolo bigliettoSingolo2 = new BigliettoSingolo(LocalDate.now(), genericDAO.findById(Ditributori.class, idDistributore), true, tipologiaMezzo);
         genericDAO.save(bigliettoSingolo);
     }
 

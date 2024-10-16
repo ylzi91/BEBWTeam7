@@ -51,7 +51,7 @@ public class GenericDAO {
     }
 
     public List<DistributoreAutomatico> distributoriAttivi() {
-        TypedQuery<DistributoreAutomatico> query = entityManager.createQuery("SELECT d FROM DistribureAutomatico d WHERE d.attivo=true", DistributoreAutomatico.class);
+        TypedQuery<DistributoreAutomatico> query = entityManager.createQuery("SELECT d FROM DistributoreAutomatico d WHERE d.attivo=true", DistributoreAutomatico.class);
         return query.getResultList();
     }
 

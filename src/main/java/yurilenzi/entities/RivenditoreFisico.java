@@ -6,7 +6,7 @@ import jakarta.persistence.Entity;
 
 @Entity
 @DiscriminatorValue("rivenditore_fisico")
-public class RivenditoreFisico extends Distributori {
+public class RivenditoreFisico extends Ditributori {
 
         private String Nome;
 

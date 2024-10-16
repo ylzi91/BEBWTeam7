@@ -6,7 +6,7 @@ import jakarta.persistence.Entity;
 
 @Entity
 @DiscriminatorValue("distributore_automatico")
-public class DistributoreAutomatico extends Distributori {
+public class DistributoreAutomatico extends Ditributori {
 
         private boolean attivo;
 

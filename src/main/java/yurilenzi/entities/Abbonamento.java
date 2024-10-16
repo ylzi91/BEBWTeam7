@@ -18,8 +18,8 @@ public class Abbonamento extends Biglietti {
 
     }
 
-    public Abbonamento(LocalDate dataEmissione, Distributori distributori, Tessere tessere, TipologiaAbbonamento tipologiaAbbonamento) {
-        super(dataEmissione, distributori);
+    public Abbonamento(LocalDate dataEmissione, Ditributori ditributori, Tessere tessere, TipologiaAbbonamento tipologiaAbbonamento) {
+        super(dataEmissione, ditributori);
         this.tessere = tessere;
         if(tipologiaAbbonamento == TipologiaAbbonamento.MENSILE) this.dataScadenza = dataEmissione.plusMonths(1);
         else if (tipologiaAbbonamento == TipologiaAbbonamento.ANNUALE) this.dataScadenza = dataEmissione.plusYears(1);

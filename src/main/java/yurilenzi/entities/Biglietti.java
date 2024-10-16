@@ -16,16 +16,16 @@ public abstract class Biglietti {
     protected LocalDate dataScadenza;
     @ManyToOne
     @JoinColumn(name = "id_distributore")
-    protected Distributori distributori;
+    protected Ditributori ditributori;
 
 
     public Biglietti(){
 
     }
-    public Biglietti(LocalDate dataEmissione, Distributori distributori) {
+    public Biglietti(LocalDate dataEmissione, Ditributori ditributori) {
         this.dataEmissione = dataEmissione;
         this.dataScadenza = dataEmissione.plusDays(10);
-        this.distributori = distributori;
+        this.ditributori = ditributori;
     }
 
     public UUID getId() {
@@ -48,6 +48,12 @@ public abstract class Biglietti {
         this.dataScadenza = dataScadenza;
     }
 
+    public Ditributori getdistributori() {
+        return ditributori;
+    }
+    public void setDistributori(Ditributori ditributori) {
+        this.ditributori = ditributori;
+    }
 
     @Override
     public String toString() {

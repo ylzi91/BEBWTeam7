@@ -9,13 +9,13 @@ import java.util.UUID;
 @Table(name = "rivenditori")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "tipo_distributore")
-public abstract class Distributori {
+public abstract class Ditributori {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID idRivenditore;
 
 
-    public Distributori(){
+    public Ditributori(){
     }
 
     public UUID getId() {
