@@ -127,4 +127,6 @@ public class Util {
         else System.out.println("Il mezzo ha già una tratta");
     }
 
+    public static void ...
+
 }
