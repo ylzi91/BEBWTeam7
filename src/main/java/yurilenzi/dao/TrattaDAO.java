@@ -6,6 +6,7 @@ import yurilenzi.entities.Tratte;
 
 import java.util.List;
 
+
 public class TrattaDAO {
     public final EntityManager entityManager;
 

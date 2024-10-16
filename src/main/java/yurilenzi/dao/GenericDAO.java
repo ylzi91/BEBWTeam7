@@ -5,24 +5,20 @@ import jakarta.persistence.EntityTransaction;
 import yurilenzi.exceptions.NotFoundException;
 
 import java.util.UUID;
+import static yurilenzi.Application.em;
 
 public class GenericDAO {
-    public final EntityManager entityManager;
-
-    public GenericDAO(EntityManager entityManager) {
-        this.entityManager = entityManager;
-    }
 
     public <T> void save(T objectToSave){
-        EntityTransaction transaction = entityManager.getTransaction();
+        EntityTransaction transaction = em.getTransaction();
         transaction.begin();
-        entityManager.persist(objectToSave);
+        em.persist(objectToSave);
         transaction.commit();
         System.out.println("L'elemento è stato salvato nel DB");
     }
 
     public <T> T findById(Class<T> myClass, String toSearch) throws NotFoundException {
-        T found = entityManager.find(myClass, UUID.fromString(toSearch));
+        T found = em.find(myClass, UUID.fromString(toSearch));
         if (found == null) throw new NotFoundException(toSearch);
         return found;
     }
@@ -34,9 +30,9 @@ public class GenericDAO {
         } catch (NotFoundException e) {
             System.out.println(e.getMessage());
         }
-        EntityTransaction transaction = entityManager.getTransaction();
+        EntityTransaction transaction = em.getTransaction();
         transaction.begin();
-        entityManager.remove(found);
+        em.remove(found);
         transaction.commit();
         System.out.println("L'elemento è stato eliminato");
     }
