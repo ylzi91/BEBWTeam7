@@ -18,23 +18,31 @@ public class Tratte {
     private String capolinea;
     private Double tempoPrevisto;
     private Double tempoEffettivo;
+    private int numeroGiri;
 
     public Tratte(){
 
     }
 
-    public Tratte(String zonaPartenza, String capolinea, Double tempoPrevisto, Double tempoEffettivo) {
-
-        this.zonaPartenza = zonaPartenza;
+    public Tratte(String capolinea, Double tempoEffettivo, Double tempoPrevisto, String zonaPartenza, int numeroGiri) {
         this.capolinea = capolinea;
-        this.tempoPrevisto = tempoPrevisto;
+        this.numeroGiri = numeroGiri;
         this.tempoEffettivo = tempoEffettivo;
+        this.tempoPrevisto = tempoPrevisto;
+        this.zonaPartenza = zonaPartenza;
     }
 
     public UUID getTratteId() {
         return tratteId;
     }
 
+    public int getNumeroGiri() {
+        return numeroGiri;
+    }
+
+    public void setNumeroGiri(int numeroGiri) {
+        this.numeroGiri = numeroGiri;
+    }
 
     public String getZonaPartenza() {
         return zonaPartenza;
