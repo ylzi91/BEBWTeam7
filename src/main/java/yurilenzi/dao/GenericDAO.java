@@ -27,6 +27,12 @@ public class GenericDAO {
         return found;
     }
 
+    public <T> T findById(Class<T> myClass, long toSearch) throws NotFoundException {
+        T found = entityManager.find(myClass, (toSearch));
+        if (found == null) throw new NotFoundException(toSearch);
+        return found;
+    }
+
     public <T> void deleteById(Class<T> myClass, String toDelete){
         T found = null;
         try {

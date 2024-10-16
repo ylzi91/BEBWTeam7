@@ -3,10 +3,8 @@ package yurilenzi.entities;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Entity
 public class Abbonamento extends Biglietti {
@@ -20,7 +18,7 @@ public class Abbonamento extends Biglietti {
 
     }
 
-    public Abbonamento(LocalDate dataEmissione, Ditributori ditributori, Tessere tessere, TipologiaAbbonamento tipologiaAbbonamento) {
+    public Abbonamento(LocalDate dataEmissione, Distributori ditributori, Tessere tessere, TipologiaAbbonamento tipologiaAbbonamento) {
         super(dataEmissione, ditributori);
         this.tessere = tessere;
         if(tipologiaAbbonamento == TipologiaAbbonamento.MENSILE) this.dataScadenza = dataEmissione.plusMonths(1);
