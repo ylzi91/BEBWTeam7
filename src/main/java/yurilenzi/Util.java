@@ -69,7 +69,7 @@ public class Util {
 
     public static void saveBigliettoSingolo(String idDistributore, TipologiaMezzo tipologiaMezzo) throws NotFoundException {
 
-        BigliettoSingolo bigliettoSingolo = new BigliettoSingolo(LocalDate.now(), genericDAO.findById(Ditributori.class, idDistributore), tipologiaMezzo);
+        BigliettoSingolo bigliettoSingolo = new BigliettoSingolo(LocalDate.now(), genericDAO.findById(Ditributori.class, idDistributore), false,tipologiaMezzo);
         genericDAO.save(bigliettoSingolo);
     }
 
