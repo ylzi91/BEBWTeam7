@@ -1,3 +1,4 @@
+/*
 package yurilenzi;
 
 import com.github.javafaker.Faker;
@@ -96,3 +97,4 @@ public class Util {
 
 
 }
+*/
