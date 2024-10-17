@@ -8,6 +8,7 @@ import yurilenzi.entities.Utenti;
 
 import java.time.LocalDate;
 import java.util.Scanner;
+import java.util.UUID;
 
 public class TessereDAO {
     public final EntityManager entityManager;
@@ -17,7 +18,9 @@ public class TessereDAO {
         this.entityManager = entityManager;
     }
 
-
+public Tessere checkTessera(UUID idTessera){
+        return entityManager.find(Tessere.class, idTessera);
+}
     public Tessere findTesseraByUtente(Utenti utente) {
         TypedQuery<Tessere> query = entityManager.createQuery("SELECT t FROM Tessere t WHERE t.utenti = :utente", Tessere.class);
         query.setParameter("utente", utente);
@@ -30,10 +33,12 @@ public class TessereDAO {
         Tessere tessera = new Tessere(utente, dataEmissione, dataRinnovo);
         GenericDAO ed = new GenericDAO(entityManager);
         ed.save(tessera);
-
+        System.out.println("Tessera creata, id tessera: "+tessera.getIdTessera()+" scadenza: "+tessera.getDataScadenza());
         return findTesseraByUtente(utente);
 
     }
+
+
 
 }
 

@@ -44,8 +44,9 @@ public abstract class Biglietti {
         return dataScadenza;
     }
 
-    public void setDataScadenza(LocalDate dataScadenza) {
+    public LocalDate setDataScadenza(LocalDate dataScadenza) {
         this.dataScadenza = dataScadenza;
+        return dataScadenza;
     }
 
     public Distributori getdistributori() {

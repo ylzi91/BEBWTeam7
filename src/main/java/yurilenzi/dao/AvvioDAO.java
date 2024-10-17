@@ -29,6 +29,7 @@ public class AvvioDAO {
                             System.out.println("Benvenut*" + utente.getNome() + " " + utente.getCognome());
                             amministratoreDAO.opzioniAmministratore();
                         } else {
+                            System.out.println("Benvenut*" + utente.getNome() + " " + utente.getCognome());
                             md.opzioniUtente();
                         }
                     } else {
