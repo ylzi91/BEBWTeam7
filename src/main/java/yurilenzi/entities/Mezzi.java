@@ -16,6 +16,7 @@ public class Mezzi {
     @Enumerated(EnumType.STRING)
     private TipologiaMezzo tipologiaMezzo;
     private boolean inServizio;
+    public boolean inManutenzione;
 
     private int capienza;
 
@@ -35,6 +36,8 @@ public class Mezzi {
         if(tipologiaMezzo == TipologiaMezzo.TRAM) this.capienza = 45;
         else if (tipologiaMezzo == TipologiaMezzo.AUTOBUS) this.capienza = 60;
         this.inServizio = inServizio;
+        this.inManutenzione = false;
+
 
         this.tratte = tratte;
 
@@ -50,6 +53,14 @@ public class Mezzi {
 
     public void setTipologiaMezzo(TipologiaMezzo tipologiaMezzo) {
         this.tipologiaMezzo = tipologiaMezzo;
+    }
+
+    public boolean isInManutenzione() {
+        return inManutenzione;
+    }
+
+    public void setInManutenzione(boolean inManutenzione) {
+        this.inManutenzione = inManutenzione;
     }
 
     public boolean isInServizio() {
@@ -79,12 +90,12 @@ public class Mezzi {
 
     @Override
     public String toString() {
-        return "------------------------Mezzo------------------" +
+        return "\n------------------------Mezzo------------------" +
                 "\nmezziId: " + mezziId +
                 "\ntipologiaMezzo: " + tipologiaMezzo +
                 "\ninServizio: " + inServizio +
                 "\ncapienza: " + capienza +
-                "\n" + tratte +
+                 (tratte == null ? "\nNessuna tratta" : "\n" + tratte) +
                 "\n------------------Fine mezzo-----------------";
     }
 }

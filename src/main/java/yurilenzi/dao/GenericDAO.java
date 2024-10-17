@@ -94,6 +94,6 @@ public class GenericDAO {
     public <T> List<T> listagenerica(Class<T>classeGenerica){
         TypedQuery<T> query = em.createQuery("select g from " + classeGenerica.getSimpleName() + " g", classeGenerica);
         return query.getResultList();
-}
+    }
 
 }

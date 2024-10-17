@@ -1,12 +1,16 @@
 package yurilenzi.dao;
 
 import jakarta.persistence.EntityManager;
+import yurilenzi.Util;
+import yurilenzi.entities.TipologiaMezzo;
+import yurilenzi.exceptions.NothingGenException;
 
 import static yurilenzi.Application.scanner;
 import static yurilenzi.Application.em;
 
 public class MenuDAO {
-    public final GenericDAO gd = new GenericDAO();
+    public final GenericDAO gd = new GenericDAO(em);
+    public final MezziDAO mezziDAO = new MezziDAO(em);
     public void opzioniAmministratore() {
         amministratore:
         while(true){
@@ -15,7 +19,9 @@ public class MenuDAO {
             System.out.println("2. Controlla distributori fuori servizio");
             System.out.println("3. Controlla Bus in servizio");
             System.out.println("4. Controlla Bus in manutenzione");
-            System.out.println("5. Controlla numero di manutenzioni");
+            System.out.println("5. Controlla numero di manutenzioni di un mezzo");
+            System.out.println("6. Controlla bus in sostituzione");
+            System.out.println("7. Aggiungi mezzo in sostituzione");
             System.out.println("0. Esci");
 
             int scelta = Integer.parseInt(scanner.nextLine());
@@ -27,10 +33,51 @@ public class MenuDAO {
                 case 2:
                     break;
                 case 3:
+                    try {
+                        System.out.println("------------------Mezzi in Servizio---------------");
+                        mezziDAO.mezziInServizio().forEach(System.out::println);
+                        System.out.println("---------------Fine mezzi in servizio-------------");
+                    } catch (NothingGenException e) {
+                        System.out.println(e.getMessage());
+                    }
                     break;
                 case 4:
+                    try {
+                        System.out.println("------------------Mezzi in Manuteznione---------------");
+                        mezziDAO.dettagliMezziInManutenzione().forEach(System.out::println);
+                        System.out.println("---------------Fine mezzi in Manutenzione-------------");
+                    } catch (NothingGenException e) {
+                        System.out.println(e.getMessage());
+                    }
                     break;
                 case 5:
+                    break;
+                case 6:
+                    System.out.println("------------------Bus in sostituzione-----------------");
+                    try {
+                        mezziDAO.mezziDiponibili().forEach(System.out::println);
+                    } catch (NothingGenException e) {
+                        throw new RuntimeException(e);
+                    }
+                    System.out.println("-----------------Bus in sostituzione------------------");
+                    break;
+                case 7:
+                    int sceltaMezzo;
+                    System.out.println("Quale mezzo vuoi aggiungere?");
+                    System.out.println("1.Autobus");
+                    System.out.println("2.Tram");
+                    sceltaMezzo = Integer.parseInt(scanner.nextLine());
+                    switch (sceltaMezzo){
+                        case 1:
+                            Util.aggiungiMezzi(1, TipologiaMezzo.AUTOBUS);
+                            break;
+                        case 2:
+                            Util.aggiungiMezzi(1, TipologiaMezzo.TRAM);
+                            break;
+                        default:
+                            System.out.println("Scelta non valida");
+                    }
+
                     break;
                 case 0:
                     System.out.println("Uscita dal menu amministratore.");

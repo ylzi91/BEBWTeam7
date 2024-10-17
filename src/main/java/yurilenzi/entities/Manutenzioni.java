@@ -60,7 +60,7 @@ public class Manutenzioni {
                 "\nidMezzi: " + idManutenzione +
                 "\ndataInizioManutenzione: " + dataInizioManutenzione +
                 "\ndataFineManutenzione: " + dataFineManutenzione +
-                "\nmezzo: " + mezzo +
+                    mezzo +
                 "\n-----------------------------Fine manuteznione-----------------------";
 
     }

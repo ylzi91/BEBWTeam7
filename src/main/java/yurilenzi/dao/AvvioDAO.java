@@ -3,11 +3,13 @@ package yurilenzi.dao;
 import yurilenzi.entities.Utenti;
 
 import java.util.UUID;
+
+import static yurilenzi.Application.em;
 import static yurilenzi.Application.scanner;
 
 
 public class AvvioDAO {
-    public static GenericDAO gd = new GenericDAO();
+    public static GenericDAO gd = new GenericDAO(em);
     public static MenuDAO md = new MenuDAO();
     public static void avvio(){
         menu:
