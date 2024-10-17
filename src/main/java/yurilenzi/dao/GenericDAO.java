@@ -17,7 +17,11 @@ import java.util.UUID;
 import static yurilenzi.Application.em;
 
 public class GenericDAO {
+    public final EntityManager entityManager;
 
+    public GenericDAO(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
     public <T> void save(T objectToSave){
         EntityTransaction transaction = em.getTransaction();
         transaction.begin();
@@ -59,6 +63,7 @@ public class GenericDAO {
     }
 
     public List<DistributoreAutomatico> distributoriAttivi() {
+
         TypedQuery<DistributoreAutomatico> query = entityManager.createQuery("SELECT d FROM DistributoreAutomatico d WHERE d.attivo=true", DistributoreAutomatico.class);
         return query.getResultList();
     }

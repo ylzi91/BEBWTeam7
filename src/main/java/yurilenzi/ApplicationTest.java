@@ -38,7 +38,6 @@ public class ApplicationTest {
         TessereDAO te = new TessereDAO(em);
         BigliettiDAO bi = new BigliettiDAO(em);
        Utenti u = ut.logIn();
-        bi.sceltaViaggio(u);
 
     }
 }

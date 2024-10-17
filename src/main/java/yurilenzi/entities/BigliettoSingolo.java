@@ -23,10 +23,10 @@ public class BigliettoSingolo extends Biglietti {
 
     public BigliettoSingolo(LocalDate dataEmissione, Distributori ditributori) {
         super(dataEmissione, ditributori);
-        this.convalidato = false;
+        this.convalidato = false;}
 
-    public BigliettoSingolo(LocalDate dataEmissione, Ditributori ditributori, boolean convalidato, TipologiaMezzo tipologiaMezzo) {
-        super(dataEmissione, ditributori);
+    public BigliettoSingolo(LocalDate dataEmissione, Distributori distributori, boolean convalidato, TipologiaMezzo tipologiaMezzo) {
+        super(dataEmissione, distributori);
         this.convalidato = convalidato;
         this.tipologiaMezzo = tipologiaMezzo;
     }
