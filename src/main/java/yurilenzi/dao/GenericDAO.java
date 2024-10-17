@@ -17,7 +17,11 @@ import java.util.UUID;
 import static yurilenzi.Application.em;
 
 public class GenericDAO {
+    public final EntityManager entityManager;
 
+    public GenericDAO(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
     public <T> void save(T objectToSave){
         EntityTransaction transaction = em.getTransaction();
         transaction.begin();
@@ -28,6 +32,18 @@ public class GenericDAO {
 
     public <T> T findById(Class<T> myClass, String toSearch) throws NotFoundException {
         T found = em.find(myClass, UUID.fromString(toSearch));
+        if (found == null) throw new NotFoundException(toSearch);
+        return found;
+    }
+
+    public <T> T findById(Class<T> myClass, UUID toSearch) throws NotFoundException {
+        T found = entityManager.find(myClass, toSearch);
+        if (found == null) throw new NotFoundException(toSearch.toString());
+        return found;
+    }
+
+    public <T> T findById(Class<T> myClass, long toSearch) throws NotFoundException {
+        T found = entityManager.find(myClass, (toSearch));
         if (found == null) throw new NotFoundException(toSearch);
         return found;
     }
@@ -78,7 +94,6 @@ public class GenericDAO {
     public <T> List<T> listagenerica(Class<T>classeGenerica){
         TypedQuery<T> query = em.createQuery("select g from " + classeGenerica.getSimpleName() + " g", classeGenerica);
         return query.getResultList();
-    }
-
+}
 
 }

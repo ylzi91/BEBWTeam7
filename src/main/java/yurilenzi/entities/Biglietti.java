@@ -16,13 +16,13 @@ public abstract class Biglietti {
     protected LocalDate dataScadenza;
     @ManyToOne
     @JoinColumn(name = "id_distributore")
-    protected Ditributori ditributori;
+    protected Distributori ditributori;
 
 
     public Biglietti(){
 
     }
-    public Biglietti(LocalDate dataEmissione, Ditributori ditributori) {
+    public Biglietti(LocalDate dataEmissione, Distributori ditributori) {
         this.dataEmissione = dataEmissione;
         this.dataScadenza = dataEmissione.plusDays(10);
         this.ditributori = ditributori;
@@ -48,10 +48,10 @@ public abstract class Biglietti {
         this.dataScadenza = dataScadenza;
     }
 
-    public Ditributori getdistributori() {
+    public Distributori getdistributori() {
         return ditributori;
     }
-    public void setDistributori(Ditributori ditributori) {
+    public void setDistributori(Distributori ditributori) {
         this.ditributori = ditributori;
     }
 

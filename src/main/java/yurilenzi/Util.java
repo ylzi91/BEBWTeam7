@@ -1,3 +1,4 @@
+/*
 package yurilenzi;
 
 import com.github.javafaker.Faker;
@@ -67,6 +68,9 @@ public class Util {
         }
     }
 
+    public static void saveBigliettoSingolo(EntityManager entityManager, String idDistributore, TipologiaMezzo tipologiaMezzo) throws NotFoundException {
+        GenericDAO genericDAO = new GenericDAO(entityManager);
+        BigliettoSingolo bigliettoSingolo = new BigliettoSingolo(LocalDate.now(), genericDAO.findById(Distributori.class, idDistributore), tipologiaMezzo);
     public static void saveBigliettoSingolo(String idDistributore, TipologiaMezzo tipologiaMezzo) throws NotFoundException {
 
         BigliettoSingolo bigliettoSingolo = new BigliettoSingolo(LocalDate.now(), genericDAO.findById(Ditributori.class, idDistributore), false,tipologiaMezzo);
@@ -135,3 +139,4 @@ public class Util {
 
 
 }
+*/

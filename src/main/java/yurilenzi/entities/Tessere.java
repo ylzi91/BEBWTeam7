@@ -28,8 +28,7 @@ public class Tessere {
 
     }
 
-    public Tessere(List<Abbonamento> abbonamenti, Utenti utenti, LocalDate dataEmissione, LocalDate dataScadenza) {
-        this.abbonamenti = abbonamenti;
+    public Tessere( Utenti utenti, LocalDate dataEmissione, LocalDate dataScadenza) {
         this.utenti = utenti;
         this.dataEmissione = dataEmissione;
         this.dataScadenza = dataScadenza;
