@@ -56,11 +56,12 @@ public class Manutenzioni {
 
     @Override
     public String toString() {
-        return "Manutenzioni{" +
-                "idMezzi=" + idManutenzione +
-                ", dataInizioManutenzione=" + dataInizioManutenzione +
-                ", dataFineManutenzione=" + dataFineManutenzione +
-                ", mezzo=" + mezzo +
-                '}';
+        return "---------------------------------Manutenzione---------------------------" +
+                "\nidMezzi: " + idManutenzione +
+                "\ndataInizioManutenzione: " + dataInizioManutenzione +
+                "\ndataFineManutenzione: " + dataFineManutenzione +
+                "\nmezzo: " + mezzo +
+                "\n-----------------------------Fine manuteznione-----------------------";
+
     }
 }

@@ -3,15 +3,10 @@ package yurilenzi;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
-import yurilenzi.dao.AvvioDAO;
-import yurilenzi.dao.GenericDAO;
-import yurilenzi.dao.MenuDAO;
-import yurilenzi.dao.MezziDAO;
-import yurilenzi.entities.Ditributori;
-import yurilenzi.entities.Mezzi;
-import yurilenzi.entities.TipologiaMezzo;
-import yurilenzi.entities.Utenti;
+import yurilenzi.dao.*;
+import yurilenzi.entities.*;
 import yurilenzi.exceptions.NotFoundException;
+import yurilenzi.exceptions.NothingTratteException;
 
 import java.util.List;
 import java.util.Scanner;
@@ -27,13 +22,15 @@ public class Application {
 
     public static void main(String[] args) {
         System.out.println("Hello World!");
-        GenericDAO genericDAO = new GenericDAO();
-        List<Mezzi> mezzis = genericDAO.listagenerica(Mezzi.class);
 
-        for (int i = 0; i < mezzis.size(); i++) {
-            System.out.println(i+1 + ")" + mezzis.get(i));
+
+        TrattaDAO trattaDAO = new TrattaDAO(em);
+        try {
+            trattaDAO.tratteDisponibili().forEach(System.out::println);
+        } catch (NothingTratteException e) {
+            System.out.println(e.getMessage());
         }
-        AvvioDAO.avvio();
+
 
     }
 }

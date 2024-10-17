@@ -79,12 +79,12 @@ public class Mezzi {
 
     @Override
     public String toString() {
-        return "Mezzi{" +
-                "mezziId=" + mezziId +
-                ", tipologiaMezzo=" + tipologiaMezzo +
-                ", inServizio=" + inServizio +
-                ", capienza=" + capienza +
-                ", tratte=" + tratte +
-                '}';
+        return "------------------------Mezzo------------------" +
+                "\nmezziId: " + mezziId +
+                "\ntipologiaMezzo: " + tipologiaMezzo +
+                "\ninServizio: " + inServizio +
+                "\ncapienza: " + capienza +
+                "\n" + tratte +
+                "\n------------------Fine mezzo-----------------";
     }
 }
