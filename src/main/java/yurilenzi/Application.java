@@ -22,7 +22,7 @@ public class Application {
     public static Scanner scanner=new Scanner(System.in);
     public static boolean continua = true;
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+
 
        // Util.saveFakeIUser(20, em);
        // Util.saveFakeTratte(20,em);
@@ -51,7 +51,7 @@ public class Application {
                     if (utente.isAutorizzazione()) {
                         md.opzioniAmministratore();
                     } else {
-                        md.opzioniUtente();
+                        //md.opzioniUtente();
                     }
                 } else {
                     System.out.println("Utente non trovato.");

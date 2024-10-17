@@ -3,11 +3,13 @@ package yurilenzi.dao;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
+import jakarta.persistence.TypedQuery;
 import yurilenzi.entities.*;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
+import java.util.UUID;
 
 public class BigliettiDAO {
     public final EntityManager entityManager;
@@ -104,6 +106,76 @@ try{
         return new Abbonamento(dataEmissione,puntoVendita,tessera, tipoAbbonamento );
 
     }
+
+    public void sceltaControllo(Utenti utente) {
+        Biglietti titolo;
+        GenericDAO ed = new GenericDAO(entityManager);
+        System.out.println("Cosa vuoi controllare? 1 BIGLIETTO 2 ABBONAMENTO 3 TESSERA");
+        int scelta = scanner.nextInt();
+
+        if (scelta == 1) {
+           validitaBiglietto();
+        } else if (scelta==2) {
+            validitaAbbonamento();
+        }
+
+
+
+        else {validitaTessera();}
+
+
+    }
+
+
+
+    public void validitaBiglietto() {
+        GenericDAO ed = new GenericDAO(entityManager);
+        System.out.println("Inserisci ID BIGLIETTO");
+        String scelta = scanner.next();
+        try{BigliettoSingolo  bigliettoSingolo = ed.findById(BigliettoSingolo.class, scelta);
+            if (bigliettoSingolo.getDataScadenza().isAfter(LocalDate.now()))
+            {System.out.println("Il biglietto è VALIDO"); }
+            else {
+                System.out.println("Il biglietto è SCADUTO");}}
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }}
+
+
+        public void validitaAbbonamento() {
+            GenericDAO et = new GenericDAO(entityManager);
+            System.out.println("Inserisci ID ABBONAMENTO");
+            String scelta1 = scanner.next();
+            try{Abbonamento  abbonamento = et.findById(Abbonamento.class, scelta1);
+                if (abbonamento.getDataScadenza().isAfter(LocalDate.now()))
+                {System.out.println("L'abbonamento è VALIDO"); }
+                else {
+                    System.out.println("L'abbonamento è SCADUTO");}}
+            catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+
+
+
+    }
+
+    public void validitaTessera() {
+        GenericDAO et = new GenericDAO(entityManager);
+        System.out.println("Inserisci ID TESSERA");
+        String scelta2 = scanner.next();
+        try{Tessere  tessera = et.findById(Tessere.class, scelta2);
+            if (tessera.getDataScadenza().isAfter(LocalDate.now()))
+            {System.out.println("La tessera è VALIDA"); }
+            else {
+                System.out.println("La tessera è SCADUTA");}}
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+
+
+    }
+
 
 
 }

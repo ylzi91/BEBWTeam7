@@ -1,6 +1,7 @@
 package yurilenzi.dao;
 
 import jakarta.persistence.EntityManager;
+import yurilenzi.entities.Utenti;
 
 import java.util.Scanner;
 
@@ -101,30 +102,28 @@ public class MenuDAO {
                 System.out.println("Uscita dal programma.");
                 break;
         }}
-    public void opzioniUtente(){
-        System.out.println("Opzioni Utente");
-        System.out.println("1. Biglietti");
-        System.out.println("2. Tessere");
-        System.out.println("3. Abbonamenti");
-        System.out.println("0. Esci");
-        int scelta = scanner.nextInt();
-        scanner.nextLine();
-        switch (scelta){
-            case 1:
-                opzioniBiglietti();
-                break;
 
-            case 2:
-                opzioniTessere();
+
+    public void opzioniUtente(Utenti utente){
+
+        System.out.println("Opzioni Utente");
+        System.out.println("1 Acquista titolo di viaggio");
+        System.out.println("2 Controlla validità");
+        int scelta3 = scanner.nextInt();
+        switch(scelta3){
+            case 1:BigliettiDAO ed = new BigliettiDAO(entityManager);
+                ed.sceltaViaggio(utente);
                 break;
-            case 3:
-                opzioniAbbonamenti();
+            case 2:BigliettiDAO et = new BigliettiDAO(entityManager);
+                et.sceltaControllo(utente);
                 break;
             case 0:
                 continua=false;
                 System.out.println("Uscita dal programma.");
                 break;
-        }
+        }}
+
+
 
     }
-}
+

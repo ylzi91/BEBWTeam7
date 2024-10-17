@@ -24,6 +24,12 @@ public class TessereDAO {
         return query.getSingleResult();
     }
 
+    public Tessere findTesseraById(String uuid) {
+        TypedQuery<Tessere> query = entityManager.createQuery("SELECT t FROM Tessere t WHERE t.id = :uuid", Tessere.class);
+        query.setParameter("uuid", uuid);
+        return query.getSingleResult();
+    }
+
     public Tessere creaTessera(Utenti utente) {
         LocalDate dataEmissione = LocalDate.now();
         LocalDate dataRinnovo = dataEmissione.plusYears(1);
