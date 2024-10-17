@@ -1,9 +1,6 @@
 package yurilenzi.dao;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityTransaction;
-import jakarta.persistence.Query;
-import jakarta.persistence.TypedQuery;
+import jakarta.persistence.*;
 import yurilenzi.entities.Manutenzioni;
 import yurilenzi.entities.Mezzi;
 import yurilenzi.entities.Tratte;
@@ -23,28 +20,42 @@ public class MezziDAO {
     public void mezzoFuoriServizio(Mezzi mezzo){
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
+        Query query = entityManager.createQuery("update Mezzi m set m.inServizio = false, m.inManutenzione = false, m.tratte = null where m.mezziId = :idmezzoDaCambiare");
+        query.setParameter("idmezzoDaCambiare", mezzo.getMezziId());
+        query.executeUpdate();
+        transaction.commit();
+        System.out.println("Il mezzo " + mezzo.getMezziId() + " è fuori servizio");
+    }
+    public void mezzoInManutenzione(Mezzi mezzo){
+
+        EntityTransaction transaction = entityManager.getTransaction();
+        transaction.begin();
         Query query = entityManager.createQuery("update Mezzi m set m.inServizio = false, m.inManutenzione = true, m.tratte = null where m.mezziId = :idmezzoDaCambiare");
         query.setParameter("idmezzoDaCambiare", mezzo.getMezziId());
         query.executeUpdate();
         transaction.commit();
         System.out.println("Il mezzo " + mezzo.getMezziId() + " è fuori servizio");
     }
+
+
     public void mezzoDiNuovoInServizio(Mezzi mezzo){
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
-        Query query = entityManager.createQuery("update Mezzi m set m.inServizio = true, m.inManutenzione = false where m.mezziId = :idmezzoDaCambiare");
+        Query query = entityManager.createQuery("update Mezzi m set m.inServizio = false, m.inManutenzione = false where m.mezziId = :idmezzoDaCambiare");
         query.setParameter("idmezzoDaCambiare", mezzo.getMezziId());
         query.executeUpdate();
         transaction.commit();
         System.out.println("Il mezzo " + mezzo.getMezziId() + " è tornato in servizio");
     }
 
+
     public void setTratta(Mezzi mezzo, Tratte tratta){
+        try {
         TypedQuery<Mezzi> query1 = entityManager.createQuery("SELECT m FROM Mezzi m WHERE m.tratte =:nuovaTratta", Mezzi.class);
         query1.setParameter("nuovaTratta", tratta);
-        if(query1.getSingleResult() != null) {
-            System.out.print("La tratta è già coperta");
-        } else {
+        query1.getSingleResult();
+            System.out.println("La tratta è gia coperta");
+        } catch (NoResultException e){
             EntityTransaction transaction = entityManager.getTransaction();
             transaction.begin();
             Query query = entityManager.createQuery("update Mezzi m set m.tratte = :nuovaTratta, m.inServizio  = true where m.mezziId = :idMezzoDaAggiungere");
@@ -69,7 +80,7 @@ public class MezziDAO {
     }
 
     public List<Mezzi> mezziInManutenzione() throws NothingGenException {
-        TypedQuery<Mezzi> query = entityManager.createQuery("select m from Mezzi m where m.InManutenzione = true", Mezzi.class);
+        TypedQuery<Mezzi> query = entityManager.createQuery("select m from Mezzi m where m.inManutenzione = true", Mezzi.class);
         if(query.getResultList().isEmpty()) throw new NothingGenException(Mezzi.class);
         return query.getResultList();
     }

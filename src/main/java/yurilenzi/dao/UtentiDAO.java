@@ -8,6 +8,7 @@ package yurilenzi.dao;
 import jakarta.persistence.EntityManager;
 import yurilenzi.entities.Utenti;
 import yurilenzi.exceptions.NotFoundException;
+import  static yurilenzi.Application.scanner;
 
 import java.util.Scanner;
 
@@ -15,7 +16,6 @@ import java.util.Scanner;
 public class UtentiDAO {
 
     public final EntityManager entityManager;
-    Scanner scanner = new Scanner(System.in);
 
     public UtentiDAO(EntityManager entityManager) {
         this.entityManager = entityManager;
@@ -25,11 +25,11 @@ public class UtentiDAO {
         Utenti utente;
         GenericDAO ed = new GenericDAO(entityManager);
         System.out.println("Sei già registrato? 1 SI 2 NO");
-        int risposta = scanner.nextInt();
+        int risposta = Integer.parseInt(scanner.nextLine());
 
         if (risposta == 1) {
             System.out.println("Inserisci l'ID UTENTE");
-            String rispostaId = scanner.next();
+            String rispostaId = scanner.nextLine();
             try {
                 utente = ed.findById(Utenti.class, rispostaId);
             } catch (Exception e) {
@@ -52,15 +52,15 @@ public class UtentiDAO {
 
     public Utenti creaUtente() {
         System.out.println("Sei un amministratore? 1 SI 2 NO");
-        int abilitazione = scanner.nextInt();
+        int abilitazione = Integer.parseInt(scanner.nextLine());
         boolean abilitazioneUtente = false;
         if (abilitazione == 1) {
             abilitazioneUtente = true;
         }
         System.out.println("Inserisci il tuo nome");
-        String nome = scanner.next();
+        String nome = scanner.nextLine();
         System.out.println("Inserisci il tuo cognome");
-        String cognome = scanner.next();
+        String cognome = scanner.nextLine();
         return new Utenti( nome, cognome,abilitazioneUtente);
 
     }

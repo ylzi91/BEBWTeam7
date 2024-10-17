@@ -109,7 +109,7 @@ public class Util {
     public static void salvaNuovaManutenzione(String idMezzo) throws NotFoundException {
         int random = new Random().nextInt(0,4);
         Mezzi mezzoTrov = genericDAO.findById(Mezzi.class, idMezzo);
-        mezziDAO.mezzoFuoriServizio(mezzoTrov);
+        mezziDAO.mezzoInManutenzione(mezzoTrov);
 
         Supplier<Manutenzioni> manutenzioniSupplier = () -> new Manutenzioni(LocalDate.now(), LocalDate.now().plusDays(random), mezzoTrov);
 
@@ -122,9 +122,19 @@ public class Util {
         Mezzi mezzoTrov = genericDAO.findById(Mezzi.class, idMezzo);
         Tratte trattaTrov = genericDAO.findById(Tratte.class, idTratta);
         if(mezzoTrov.getTratte() == null){
-            mezziDAO.setTratta(mezzoTrov, trattaTrov);
+            if(mezzoTrov.inManutenzione){
+                System.out.println("Il mezzo è ancora in manutenzione");
+            }
+            else mezziDAO.setTratta(mezzoTrov, trattaTrov);
+
         }
         else System.out.println("Il mezzo ha già una tratta");
+    }
+
+    public static void mezzoEsceDallaManutenzione(String idMezzo) throws NotFoundException {
+        Mezzi mezzoTrovato = genericDAO.findById(Mezzi.class, idMezzo);
+        mezziDAO.mezzoDiNuovoInServizio(mezzoTrovato);
+
     }
 
 

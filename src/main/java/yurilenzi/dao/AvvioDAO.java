@@ -11,6 +11,8 @@ import static yurilenzi.Application.scanner;
 public class AvvioDAO {
     public static GenericDAO gd = new GenericDAO(em);
     public static MenuDAO md = new MenuDAO();
+    public static AmministratoreDAO amministratoreDAO = new AmministratoreDAO();
+    public static UtentiDAO utentiDAO = new UtentiDAO(em);
     public static void avvio(){
         menu:
         while (true) {
@@ -21,13 +23,11 @@ public class AvvioDAO {
 
             switch (scelta){
                 case 1:
-                    System.out.println("Inserisci il tuo id");
-                    String input = scanner.nextLine();
-                    UUID utenteId = UUID.fromString(input);
-                    Utenti utente =gd.verificaId(utenteId);
+                    Utenti utente = utentiDAO.logIn();
                     if (utente!=null) {
                         if (utente.isAutorizzazione()) {
-                            md.opzioniAmministratore();
+                            System.out.println("Benvenut*" + utente.getNome() + " " + utente.getCognome());
+                            amministratoreDAO.opzioniAmministratore();
                         } else {
                             md.opzioniUtente();
                         }
