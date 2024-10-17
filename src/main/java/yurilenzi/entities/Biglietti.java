@@ -48,6 +48,12 @@ public abstract class Biglietti {
         this.dataScadenza = dataScadenza;
     }
 
+    public Ditributori getdistributori() {
+        return ditributori;
+    }
+    public void setDistributori(Ditributori ditributori) {
+        this.ditributori = ditributori;
+    }
 
     @Override
     public String toString() {

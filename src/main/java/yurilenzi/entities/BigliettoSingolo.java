@@ -25,6 +25,10 @@ public class BigliettoSingolo extends Biglietti {
         super(dataEmissione, ditributori);
         this.convalidato = false;
 
+    public BigliettoSingolo(LocalDate dataEmissione, Ditributori ditributori, boolean convalidato, TipologiaMezzo tipologiaMezzo) {
+        super(dataEmissione, ditributori);
+        this.convalidato = convalidato;
+        this.tipologiaMezzo = tipologiaMezzo;
     }
 
     public boolean isConvalidato() {
