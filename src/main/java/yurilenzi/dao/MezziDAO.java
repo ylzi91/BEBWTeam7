@@ -7,6 +7,7 @@ import yurilenzi.entities.Tratte;
 import yurilenzi.exceptions.NothingGenException;
 
 import java.util.List;
+import java.util.Random;
 
 public class MezziDAO {
 
@@ -56,12 +57,17 @@ public class MezziDAO {
         query1.getSingleResult();
             System.out.println("La tratta è gia coperta");
         } catch (NoResultException e){
+            Double randomEffettivo = new Random().nextDouble((tratta.getTempoPrevisto() * tratta.getNumeroGiri() -5), (tratta.getTempoPrevisto() * tratta.getNumeroGiri() +5));
             EntityTransaction transaction = entityManager.getTransaction();
             transaction.begin();
             Query query = entityManager.createQuery("update Mezzi m set m.tratte = :nuovaTratta, m.inServizio  = true where m.mezziId = :idMezzoDaAggiungere");
+            Query query1 = entityManager.createQuery("update Tratte t set t.tempoEffettivo = :tempoRand where t.tratteId = :trattaId");
             query.setParameter("nuovaTratta", tratta);
             query.setParameter("idMezzoDaAggiungere", mezzo.getMezziId());
+            query1.setParameter("trattaId", tratta.getTratteId());
+            query1.setParameter("tempoRand", randomEffettivo);
             query.executeUpdate();
+            query1.executeUpdate();
             transaction.commit();
             System.out.println("Il mezzo " + mezzo.getMezziId() + " è stato aggiunta alla tratta " + tratta.getTratteId());
         }
@@ -95,6 +101,8 @@ public class MezziDAO {
         if(query.getResultList().isEmpty()) throw new NothingGenException(Mezzi.class);
         return query.getResultList();
     }
+
+
 
 
 }

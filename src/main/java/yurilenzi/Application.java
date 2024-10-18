@@ -5,6 +5,7 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import yurilenzi.dao.*;
 import yurilenzi.entities.TipologiaMezzo;
+import yurilenzi.entities.Tratte;
 import yurilenzi.exceptions.NotFoundException;
 import yurilenzi.exceptions.NothingGenException;
 

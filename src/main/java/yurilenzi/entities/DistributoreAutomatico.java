@@ -23,8 +23,9 @@ public class DistributoreAutomatico extends Distributori {
 
         @Override
         public String toString() {
-                return "DistributoreAutomatico{" +
-                        "attivo=" + attivo +
-                        "} " + super.toString();
+                return "\nDistributoreAutomatico\n" +
+                        "id: " + super.getId() +
+                        "\nattivo: " + attivo +
+                        "\n";
         }
 }

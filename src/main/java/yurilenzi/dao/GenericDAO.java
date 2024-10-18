@@ -27,7 +27,7 @@ public class GenericDAO {
         transaction.begin();
         em.persist(objectToSave);
         transaction.commit();
-        System.out.println("L'elemento è stato salvato nel DB");
+        System.out.println("L'elemento" + objectToSave.toString() + " è stato salvato nel DB");
     }
 
     public <T> T findById(Class<T> myClass, String toSearch) throws NotFoundException {
@@ -68,7 +68,7 @@ public class GenericDAO {
     }
 
     public List<DistributoreAutomatico> distributoriFuoriServizio() {
-        TypedQuery<DistributoreAutomatico> query = em.createQuery("SELECT d FROM DistribureAutomatico d WHERE d.attivo=false", DistributoreAutomatico.class);
+        TypedQuery<DistributoreAutomatico> query = em.createQuery("SELECT d FROM DistributoreAutomatico d WHERE d.attivo=false", DistributoreAutomatico.class);
         return query.getResultList();
     }
 

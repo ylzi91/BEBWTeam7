@@ -28,8 +28,9 @@ public class RivenditoreFisico extends Distributori {
 
         @Override
         public String toString() {
-                return "RivenditoreFisico{" +
-                        "Nome='" + Nome + '\'' +
-                        "} " + super.toString();
+                return "\nRivenditoreFisico\n" +
+                        "id: " + super.getId() +
+                        "\nNome: " + Nome;
+
         }
 }

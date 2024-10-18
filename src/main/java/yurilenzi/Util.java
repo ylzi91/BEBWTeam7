@@ -145,5 +145,9 @@ public class Util {
 
 
 
+    public static void aggiungiTratta(String capolinea, Double tempoPrevisto, String partenza, int numeroGiri){
+        Tratte tratte = new Tratte(capolinea, null, tempoPrevisto, partenza, numeroGiri);
+        genericDAO.save(tratte);
+    }
 }
 

@@ -78,7 +78,7 @@ public class Tratte {
 
     @Override
     public String toString() {
-        return   "-----------------Tratta----------------------\n" +
+        return   "\n-----------------Tratta----------------------\n" +
                 "trattaId: " + tratteId +
                 "\nzonaPartenza: " + zonaPartenza +
                 "\ncapolinea: " + capolinea  +

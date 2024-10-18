@@ -28,6 +28,7 @@ public class UtentiDAO {
         int risposta = Integer.parseInt(scanner.nextLine());
 
         if (risposta == 1) {
+            ed.listagenerica(Utenti.class).forEach(System.out::println);
             System.out.println("Inserisci l'ID UTENTE");
             String rispostaId = scanner.nextLine();
             try {

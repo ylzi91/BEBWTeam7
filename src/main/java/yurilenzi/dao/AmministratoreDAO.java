@@ -28,6 +28,8 @@ public class AmministratoreDAO {
             System.out.println("8. Assegna tratta ad un mezzo");
             System.out.println("9. Manda un mezzo in manutenzione");
             System.out.println("10. Fine della manutenzione");
+            System.out.println("11. Calcola il tempo medio di percorrenza di un mezzo");
+            System.out.println("12. Aggiungi nuova tratta");
             System.out.println("0. Esci");
 
             int scelta = Integer.parseInt(scanner.nextLine());
@@ -37,6 +39,7 @@ public class AmministratoreDAO {
                     gd.distributoriAttivi().forEach(System.out::println);
                     break;
                 case 2:
+                    gd.distributoriFuoriServizio().forEach(System.out::println);
                     break;
                 case 3:
                     try {
@@ -150,6 +153,36 @@ public class AmministratoreDAO {
                     } catch (Exception e){
                         System.out.println("Errore input");
                     }
+                    break;
+                case 11:
+                    System.out.println("Lista mezzi in servizio");
+                    try {
+                        mezziDAO.mezziInServizio().forEach(System.out::println);
+                        System.out.println("Scrivi l'id del mezzo per cui vuoi calcolare la media");
+                        String idMezzoMed = scanner.nextLine();
+                        System.out.println("La media del mezzo" + idMezzoMed + " è");
+                        Util.calcolaMediaMezzoById(idMezzoMed);
+                    } catch (NothingGenException | NotFoundException e) {
+                        System.out.println(e.getMessage());
+                    }catch (Exception e){
+                        System.out.println(e.getMessage());
+                    }
+                    break;
+                case 12:
+                    try {
+                        System.out.println("Indirizzo di partenza");
+                        String partenza = scanner.nextLine();
+                        System.out.println("Capolinea");
+                        String capolinea = scanner.nextLine();
+                        System.out.println("Inserisci il tempo previsto");
+                        Double tempoPrevisto = Double.parseDouble(scanner.nextLine());
+                        System.out.println("Inserisci il numero di giri");
+                        int nGiri = Integer.parseInt(scanner.nextLine());
+                        Util.aggiungiTratta(capolinea, tempoPrevisto, partenza, nGiri);
+                    } catch (Exception e) {
+                        System.out.println("Errore di inserimento");
+                    }
+
                     break;
                 case 0:
                     System.out.println("Uscita dal menu amministratore.");

@@ -23,10 +23,11 @@ public class AvvioDAO {
 
             switch (scelta){
                 case 1:
+
                     Utenti utente = utentiDAO.logIn();
                     if (utente!=null) {
                         if (utente.isAutorizzazione()) {
-                            System.out.println("Benvenut*" + utente.getNome() + " " + utente.getCognome());
+                            System.out.println("Benvenut* " + utente.getNome() + " " + utente.getCognome());
                             amministratoreDAO.opzioniAmministratore();
                         } else {
                             md.opzioniUtente();
