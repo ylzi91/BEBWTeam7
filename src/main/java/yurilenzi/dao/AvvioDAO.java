@@ -31,7 +31,7 @@ public class AvvioDAO {
                             amministratoreDAO.opzioniAmministratore();
                         } else {
                             System.out.println("Benvenut*" + utente.getNome() + " " + utente.getCognome());
-                            md.opzioniUtente();
+                            md.opzioniUtente(utente);
                         }
                     } else {
                         System.out.println("Utente non trovato.");

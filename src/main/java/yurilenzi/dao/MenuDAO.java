@@ -42,7 +42,7 @@ public class MenuDAO {
                 System.out.println("Uscita dal programma.");
                 break;
         }}
-    public void opzioniTessere(){
+    public void opzioniTessere(Utenti utente){
         System.out.println("1.Compra tessera");
         System.out.println("2.Controlla validità");
         System.out.println("0.Esci");
@@ -50,36 +50,28 @@ public class MenuDAO {
         switch(scelta2){
             case 1:
                 try{
-                    System.out.println("inserisci il tuo id");
-                    String input = scanner.nextLine();
-                    UUID utenteId = UUID.fromString(input);
-                    Utenti utente =gd.verificaId(utenteId);
-                    if(utente.getTessere()!=null)
                     tessereDAO.compraTessera(utente);
             }catch(Exception e){   System.out.println(e.getMessage());}
                  break;
             case 2:
                 try{
-                    System.out.println("inserisci l'id della tua tessera");
-                    String input = scanner.nextLine();
-                    UUID tesseraId = UUID.fromString(input);
-                   Tessere tessera =tessereDAO.checkTessera(tesseraId);
-                    if (tessera!=null){
-                        tessereDAO.controllaValidità(tessera);
-                    }
-                    else{
-                        opzioniTessere();
-                    }
-                }catch (Exception e ){    System.out.println(e.getMessage());}
+                    tessereDAO.findTesseraByUtente(utente);
+                    tessereDAO.controllaValidità(tessereDAO.findTesseraByUtente(utente));
+
+                }catch (Exception e ){
+                    System.out.println("Nessuna tessera trovata");
+                    opzioniUtente(utente);
+                }
                 break;
 
             case 0:
-
                 System.out.println("Uscita dal programma.");
                 break;
+            default:
+                System.out.println("Opzione non valida");
         }
     }
-    public void opzioniAbbonamenti(){
+    public void opzioniAbbonamenti(Utenti utente){
         System.out.println("1.Compra abbonamento");
         System.out.println("2.Controlla validità");
         System.out.println("0. Esci");
@@ -88,47 +80,28 @@ public class MenuDAO {
         switch(scelta2){
             case 1:
                 try {
-                    System.out.println("inserisci l'id della tua tessera");
-                    String input = scanner.nextLine();
-                    UUID tessereId = UUID.fromString(input);
-                    Tessere tessera =tessereDAO.checkTessera(tessereId);
-                    if (tessera!=null) {
-
-                        bigliettiDAO.creaAbbonamento(tessera);
-
-                        } else {
-                        System.out.println("Tessera non esistente");
-                        System.out.println("inserisci il tuo id");
-                        String input2 = scanner.nextLine();
-                        UUID utenteId = UUID.fromString(input2);
-                        Utenti utente =gd.verificaId(utenteId);
-                        List<Tessere> tessera1=tessereDAO.creaTessera(utente);
-                        tessera1.forEach(System.out::println);
-                        }
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
+                    Tessere tessera = tessereDAO.checkTessera(tessereDAO.findTesseraByUtente(utente).getIdTessera());
+                    bigliettiDAO.creaAbbonamento(tessera);
+                }
+                catch (Exception e) {
+                    System.out.println("Non hai una tessera");
                 }
                 break;
             case 2:
                 try{
-                System.out.println("inserisci l'id del tuo abbonamento");
-                String input = scanner.nextLine();
-                UUID abbonamentoId = UUID.fromString(input);
-                Abbonamento abbonamento =bigliettiDAO.checkAbbonamento(abbonamentoId);
-                if (abbonamento!=null){
-                    bigliettiDAO.controllaValidità(abbonamento);
+                   Abbonamento abbonamento = bigliettiDAO.checkAbbonamento(bigliettiDAO.findAbbonamentoByTessera(tessereDAO.findTesseraByUtente(utente)).getId());
+                   bigliettiDAO.controllaValidità(abbonamento);
+
+                }catch (Exception e){
+                    System.out.println("L'abbonamento non esiste");
                 }
-                else{
-                    opzioniAbbonamenti();
-                }
-                }catch (Exception e ){    System.out.println(e.getMessage());}
                 break;
             case 0:
 
                 System.out.println("Uscita dal programma.");
                 break;
         }}
-    public void opzioniUtente(){
+    public void opzioniUtente(Utenti utente){
         opzioniUtente:
         while (true){
             System.out.println("Opzioni Utente");
@@ -143,10 +116,10 @@ public class MenuDAO {
                     break;
 
                 case 2:
-                    opzioniTessere();
+                    opzioniTessere(utente);
                     break;
                 case 3:
-                    opzioniAbbonamenti();
+                    opzioniAbbonamenti(utente);
                     break;
                 case 0:
                     System.out.println("Uscita dal programma.");

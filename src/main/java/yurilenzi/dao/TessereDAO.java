@@ -21,16 +21,18 @@ public class TessereDAO {
         this.entityManager = entityManager;
     }
 
-public Tessere checkTessera(UUID idTessera){
+    public Tessere checkTessera(UUID idTessera){
         return entityManager.find(Tessere.class, idTessera);
 }
-    public List<Tessere> findTesseraByUtente(Utenti utente) {
+
+    public Tessere findTesseraByUtente(Utenti utente) {
         TypedQuery<Tessere> query = entityManager.createQuery("SELECT t FROM Tessere t WHERE t.utenti = :utente", Tessere.class);
         query.setParameter("utente", utente);
-        return query.getResultList();
+        return query.getSingleResult();
     }
 
-    public List <Tessere> creaTessera(Utenti utente) {
+
+    public Tessere creaTessera(Utenti utente) {
         LocalDate dataEmissione = LocalDate.now();
         LocalDate dataRinnovo = dataEmissione.plusYears(1);
         Tessere tessera = new Tessere(utente, dataEmissione, dataRinnovo);
@@ -41,9 +43,11 @@ public Tessere checkTessera(UUID idTessera){
 
     }
     public Tessere compraTessera(Utenti utente){
-        findTesseraByUtente(utente);
-        if (utente.getTessere()==null){     creaTessera(utente); }else{System.out.println("Hai già una tessera");
-            utente.getTessere().forEach(System.out::println);}
+        if (utente.getTessere()==null){     creaTessera(utente); }
+        else{
+            System.out.println("Hai già una tessera");
+            System.out.println(utente.getTessere());
+        }
 
         return new Tessere();
     }

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import yurilenzi.entities.Manutenzioni;
 import yurilenzi.entities.Mezzi;
 import yurilenzi.entities.Tratte;
+import yurilenzi.exceptions.NotFoundException;
 import yurilenzi.exceptions.NothingGenException;
 
 import java.util.List;
@@ -86,7 +87,7 @@ public class MezziDAO {
     }
 
     public List<Mezzi> mezziInManutenzione() throws NothingGenException {
-        TypedQuery<Mezzi> query = entityManager.createQuery("select m from Mezzi m where m.inManutenzione = true", Mezzi.class);
+        TypedQuery<Mezzi> query = entityManager.createQuery("select m from Mezzi m join Manutenzioni ma on ma.mezzo = m", Mezzi.class);
         if(query.getResultList().isEmpty()) throw new NothingGenException(Mezzi.class);
         return query.getResultList();
     }
@@ -100,6 +101,14 @@ public class MezziDAO {
         TypedQuery<Mezzi> query = entityManager.createQuery("select m from Mezzi m where m.inManutenzione = false and m.inServizio = true", Mezzi.class);
         if(query.getResultList().isEmpty()) throw new NothingGenException(Mezzi.class);
         return query.getResultList();
+    }
+
+    public long contaggioManutenzioni(String idMezzo) throws NotFoundException {
+        GenericDAO genericDAO = new GenericDAO(entityManager);
+        Mezzi found = genericDAO.findById(Mezzi.class, idMezzo);
+        TypedQuery<Long> query = entityManager.createQuery("select count(m) from Manutenzioni m where m.mezzo = :idMezzo ", Long.class);
+        query.setParameter("idMezzo", found);
+        return query.getSingleResult();
     }
 
 

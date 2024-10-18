@@ -13,8 +13,8 @@ public class Utenti {
     @Column(name="id_utente")
     private UUID utenteId;
 
-    @OneToMany(mappedBy = "utenti")
-    private List<Tessere> tessere;
+    @OneToOne(mappedBy = "utenti")
+    private Tessere tessere;
 
     private String nome;
     private String cognome;
@@ -34,11 +34,11 @@ public class Utenti {
         return utenteId;
     }
 
-    public List<Tessere> getTessere() {
+    public Tessere getTessere() {
         return tessere;
     }
 
-    public void setTessere(List<Tessere> tessere) {
+    public void setTessere(Tessere tessere) {
         this.tessere = tessere;
     }
 

@@ -2,15 +2,13 @@ package yurilenzi.dao;
 
 
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.NoResultException;
+import jakarta.persistence.TypedQuery;
 import yurilenzi.entities.*;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
-
-import static yurilenzi.Application.scanner;
 
 public class BigliettiDAO {
     public final EntityManager entityManager;
@@ -154,6 +152,10 @@ public class BigliettiDAO {
     }
 
 
-
+    public Abbonamento findAbbonamentoByTessera(Tessere tessera) {
+        TypedQuery<Abbonamento> query = entityManager.createQuery("SELECT a FROM Abbonamento a WHERE a.tessere = :tessera", Abbonamento.class);
+        query.setParameter("tessera", tessera);
+        return query.getSingleResult();
+    }
 
 }

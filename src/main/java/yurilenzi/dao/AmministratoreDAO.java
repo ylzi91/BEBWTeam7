@@ -21,7 +21,7 @@ public class AmministratoreDAO {
             System.out.println("1. Controlla distributori attivi");
             System.out.println("2. Controlla distributori fuori servizio");
             System.out.println("3. Controlla Bus in servizio");
-            System.out.println("4. Controlla Bus in manutenzione");
+            System.out.println("4. Controlla lo storico manutenzioni");
             System.out.println("5. Controlla numero di manutenzioni di un mezzo");
             System.out.println("6. Controlla bus in sostituzione");
             System.out.println("7. Aggiungi mezzo in sostituzione");
@@ -60,6 +60,19 @@ public class AmministratoreDAO {
                     }
                     break;
                 case 5:
+                    System.out.println("----------Lista mezzi che sono stati in mautenzione------------");
+                    try {
+                        mezziDAO.mezziInManutenzione().forEach(System.out::println);
+
+                        System.out.println("Conta il nuemro di manutenzioni con l'id");
+                        String idMezzMan = scanner.nextLine();
+
+                        System.out.println("Numro di manutenzioni totali: " + mezziDAO.contaggioManutenzioni(idMezzMan));
+
+
+                    } catch (NothingGenException | NotFoundException e) {
+                        System.out.println(e.getMessage());
+                    }
                     break;
                 case 6:
                     System.out.println("------------------Bus in sostituzione-----------------");

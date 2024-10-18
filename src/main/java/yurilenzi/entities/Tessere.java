@@ -14,9 +14,9 @@ public class Tessere {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID idTessera;
 
-    @OneToMany(mappedBy = "tessere")
-    private List<Abbonamento> abbonamenti;
-    @ManyToOne
+    @OneToOne(mappedBy = "tessere")
+    private Abbonamento abbonamenti;
+    @OneToOne
     @JoinColumn(name = "id_utente", nullable = false)
     private Utenti utenti;
 
@@ -38,11 +38,11 @@ public class Tessere {
         return idTessera;
     }
 
-    public List<Abbonamento> getAbbonamenti() {
+    public Abbonamento getAbbonamenti() {
         return abbonamenti;
     }
 
-    public void setAbbonamenti(List<Abbonamento> abbonamenti) {
+    public void setAbbonamenti(Abbonamento abbonamenti) {
         this.abbonamenti = abbonamenti;
     }
 

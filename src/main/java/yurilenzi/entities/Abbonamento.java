@@ -3,12 +3,13 @@ package yurilenzi.entities;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 
 import java.time.LocalDate;
 
 @Entity
 public class Abbonamento extends Biglietti {
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "id_tessera")
     private Tessere tessere;
 
