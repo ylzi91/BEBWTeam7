@@ -79,7 +79,7 @@ public class AmministratoreDAO {
                     try {
                         mezziDAO.mezziDiponibili().forEach(System.out::println);
                     } catch (NothingGenException e) {
-                        throw new RuntimeException(e);
+                        System.out.println(e.getMessage());
                     }
                     System.out.println("-----------------Bus in sostituzione------------------");
                     break;

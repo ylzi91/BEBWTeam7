@@ -41,9 +41,12 @@ public class BigliettoSingoloDAO {
     }
     public Biglietti controllaValidità(BigliettoSingolo biglietto) {
         LocalDate scadenza=biglietto.getDataScadenza() ;
+        boolean conv = biglietto.isConvalidato();
         if(scadenza.isBefore(LocalDate.now())){
             System.out.println("Biglietto scaduto");
-        }else {
+        }
+        else if(conv == true) System.out.println("Biglietto gia vidimato");
+        else {
             System.out.println("Biglietto non scaduto, vuoi vidimarlo?");
             System.out.println("1 SI");
             System.out.println("2 NO");
@@ -53,7 +56,7 @@ public class BigliettoSingoloDAO {
                     System.out.println("inserisci id mezzo");
                     String input = scanner.nextLine();
                     try {
-                        Util.vidimaBiglietto(biglietto.getId().toString(),input);
+                        Util.vidimaBiglietto(input,biglietto.getId().toString());
                     } catch (NotFoundException e) {
                         System.out.println(e.getMessage());
                     }

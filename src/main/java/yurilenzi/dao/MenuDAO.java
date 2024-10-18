@@ -30,11 +30,14 @@ public class MenuDAO {
         switch(scelta2){
             case 1:try{bigliettiDAO.creaBiglietto();}catch (Exception e){System.out.println(e.getMessage());}
                 break;
-            case 2:try{
+            case 2:
+                try{
                 System.out.println("inserisci id biglietto");
                 String input = scanner.nextLine();
-                BigliettoSingolo biglietto=gd.findById(BigliettoSingolo.class, input);
-                bsd.controllaValidità(biglietto);} catch (Exception e) {
+                BigliettoSingolo biglietto = gd.findById(BigliettoSingolo.class, input);
+                bsd.controllaValidità(biglietto);
+            }
+            catch (Exception e) {
                 System.out.println(e.getMessage());
             }
             break;
