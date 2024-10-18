@@ -86,7 +86,9 @@ public class BigliettiDAO {
             tipologiaMezzo =TipologiaMezzo.TRAM;
         }
         Biglietti biglietto=new BigliettoSingolo(dataEmissione, puntoVendita,tipologiaMezzo);
-        System.out.println("il tuo biglietto è stato emesso");
+        GenericDAO ed = new GenericDAO(entityManager);
+        ed.save(biglietto);
+        System.out.println("il tuo biglietto con id: "+biglietto.getId()+" è stato emesso e scadrà il "+biglietto.getDataScadenza());
         return biglietto;
 
     }
@@ -150,6 +152,7 @@ public class BigliettiDAO {
         System.out.println("Abbonamento rinnovato fino al "+abbonamento.getDataScadenza());
         return abbonamento;
     }
+
 
 
 

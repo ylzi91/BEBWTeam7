@@ -70,7 +70,6 @@ public class Utenti {
     public String toString() {
         return "Utenti{" +
                 "utenteId=" + utenteId +
-                ", tessere=" + tessere +
                 ", nome='" + nome + '\'' +
                 ", cognome='" + cognome + '\'' +
                 ", autorizzazione=" + autorizzazione +
