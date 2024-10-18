@@ -75,10 +75,17 @@ public class BigliettiDAO {
 
     public Biglietti creaBiglietto() {
         Distributori puntoVendita;
-
+        TipologiaMezzo tipologiaMezzo;
         LocalDate dataEmissione = LocalDate.now();
         puntoVendita = sceltaVendita();
-        Biglietti biglietto=new BigliettoSingolo(dataEmissione, puntoVendita);
+        System.out.println("Per quale mezzo? 1 AUTOBUS 2 TRAM");
+        int scelta = scanner.nextInt();
+        if (scelta == 1) {
+            tipologiaMezzo =TipologiaMezzo.AUTOBUS;
+        } else {
+            tipologiaMezzo =TipologiaMezzo.TRAM;
+        }
+        Biglietti biglietto=new BigliettoSingolo(dataEmissione, puntoVendita,tipologiaMezzo);
         System.out.println("il tuo biglietto è stato emesso");
         return biglietto;
 
@@ -112,6 +119,7 @@ public class BigliettiDAO {
 
 
     public Biglietti creaAbbonamento(Tessere tessera) {
+        Abbonamento abbonamentoSalvato=null;
         LocalDate dataEmissione = LocalDate.now();
         Distributori puntoVendita;
         TipologiaAbbonamento tipoAbbonamento;
@@ -124,8 +132,16 @@ public class BigliettiDAO {
             tipoAbbonamento = TipologiaAbbonamento.ANNUALE;
         }
         Abbonamento abbonamento=new Abbonamento(dataEmissione, puntoVendita,tessera,tipoAbbonamento);
-        System.out.println("il tuo abbonamento con id "+abbonamento.getId()+" di tipo "+abbonamento.getTipologiaAbbonamento()+" è stato creato con successo!!");
-        return abbonamento;
+        GenericDAO ed = new GenericDAO(entityManager);
+        ed.save(abbonamento);
+        try {
+          abbonamentoSalvato= ed.findById(Abbonamento.class,abbonamento.getId());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        System.out.println("il tuo abbonamento con id "+abbonamentoSalvato.getId()+" di tipo "+abbonamentoSalvato.getTipologiaAbbonamento()+" è stato creato con successo!!");
+        return abbonamentoSalvato;
 
     }
 
