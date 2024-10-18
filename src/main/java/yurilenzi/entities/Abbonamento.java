@@ -45,7 +45,7 @@ public class Abbonamento extends Biglietti {
     @Override
     public String toString() {
         return "Abbonamento{" +
-                "tessere=" + tessere +
+               // "tessere=" + tessere +
                 ", tipologiaAbbonamento=" + tipologiaAbbonamento +
                 "} " + super.toString();
     }

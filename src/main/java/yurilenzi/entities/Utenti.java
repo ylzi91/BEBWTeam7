@@ -68,11 +68,11 @@ public class Utenti {
 
     @Override
     public String toString() {
-        return "\n-------------------------Utente------------------\n" +
-                "utenteId: " + utenteId +
-                "\ntessere: " + tessere +
-                "\nnome: " + nome +
-                "\ncognome: " + cognome +
-                "\nautorizzazione: " + autorizzazione;
+        return "Utenti{" +
+                "utenteId=" + utenteId +
+                ", nome='" + nome + '\'' +
+                ", cognome='" + cognome + '\'' +
+                ", autorizzazione=" + autorizzazione +
+                '}';
     }
 }

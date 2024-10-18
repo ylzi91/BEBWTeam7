@@ -96,4 +96,5 @@ public class GenericDAO {
         return query.getResultList();
     }
 
+
 }

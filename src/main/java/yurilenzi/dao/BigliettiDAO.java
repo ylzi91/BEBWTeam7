@@ -8,6 +8,9 @@ import yurilenzi.entities.*;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
+import java.util.UUID;
+
+import static yurilenzi.Application.scanner;
 
 public class BigliettiDAO {
     public final EntityManager entityManager;
@@ -17,7 +20,7 @@ public class BigliettiDAO {
         this.entityManager = entityManager;
     }
 
-    public Biglietti sceltaViaggio(Utenti utente) {
+    public Biglietti sceltaViaggio(Tessere tessera) {
         Biglietti titolo;
         GenericDAO ed = new GenericDAO(entityManager);
         System.out.println("Cosa vuoi acquistare? 1 BIGLIETTO 2 ABBONAMENTO");
@@ -27,13 +30,15 @@ public class BigliettiDAO {
             titolo = creaBiglietto();
             ed.save(titolo);
         } else {
-            titolo = creaAbbonamento(utente);
+            titolo = creaAbbonamento(tessera);
             ed.save(titolo);
         }
 
         return null;
     }
-
+    public Abbonamento checkAbbonamento(UUID idAbbonamento){
+        return entityManager.find(Abbonamento.class, idAbbonamento);
+    }
     public Distributori sceltaVendita() {
         Distributori puntoVendita;
         GenericDAO ed = new GenericDAO(entityManager);
@@ -70,20 +75,56 @@ public class BigliettiDAO {
 
     public Biglietti creaBiglietto() {
         Distributori puntoVendita;
-
+        TipologiaMezzo tipologiaMezzo;
         LocalDate dataEmissione = LocalDate.now();
         puntoVendita = sceltaVendita();
-
-        return new BigliettoSingolo(dataEmissione, puntoVendita);
+        System.out.println("Per quale mezzo? 1 AUTOBUS 2 TRAM");
+        int scelta = scanner.nextInt();
+        if (scelta == 1) {
+            tipologiaMezzo =TipologiaMezzo.AUTOBUS;
+        } else {
+            tipologiaMezzo =TipologiaMezzo.TRAM;
+        }
+        Biglietti biglietto=new BigliettoSingolo(dataEmissione, puntoVendita,tipologiaMezzo);
+        GenericDAO ed = new GenericDAO(entityManager);
+        ed.save(biglietto);
+        System.out.println("il tuo biglietto con id: "+biglietto.getId()+" è stato emesso e scadrà il "+biglietto.getDataScadenza());
+        return biglietto;
 
     }
+    public Biglietti controllaValidità(Biglietti abbonamento) {
+       LocalDate scadenza=abbonamento.getDataScadenza() ;
+       if(scadenza.isBefore(LocalDate.now())){
+           System.out.println("Abbonamento scaduto");
+           System.out.println("Vuoi rinnovarlo?");
+           System.out.println("1 SI");
+           System.out.println("2 NO");
+           int scelta = Integer.parseInt(scanner.nextLine());
+           switch(scelta){
+               case 1:
+                   System.out.println("inserisci l'id del tuo abbonamento");
+                   String input = scanner.nextLine();
+                   UUID abbonamentoId = UUID.fromString(input);
+                   Abbonamento abbonamento1 =checkAbbonamento(abbonamentoId);
+                   rinnovoAbbonamento(abbonamento1);
+                   break;
+               case 2:
+                   System.out.println("Uscita dal programma.");
+                   break;
+           }
 
-    public Biglietti creaAbbonamento(Utenti utente) {
+       }else {
+          System.out.println("L'abbonamento scade il "+abbonamento.getDataScadenza());
+       }
+        return null;
+    }
+
+
+    public Biglietti creaAbbonamento(Tessere tessera) {
+        Abbonamento abbonamentoSalvato=null;
         LocalDate dataEmissione = LocalDate.now();
         Distributori puntoVendita;
         TipologiaAbbonamento tipoAbbonamento;
-        Tessere tessera;
-        TessereDAO ed = new TessereDAO(entityManager);
         puntoVendita = sceltaVendita();
         System.out.println("Che tipo di abbonamento vuoi acquistare? 1 MENSILE 2 ANNUALE");
         int scelta = scanner.nextInt();
@@ -92,18 +133,27 @@ public class BigliettiDAO {
         } else {
             tipoAbbonamento = TipologiaAbbonamento.ANNUALE;
         }
-try{
-    tessera = ed.findTesseraByUtente(utente);
-   }
-    catch (NoResultException e) {
-        System.out.println("Tessera non trovata ");
-        tessera = ed.creaTessera(utente);
-        System.out.println("Tessera creata ");
+        Abbonamento abbonamento=new Abbonamento(dataEmissione, puntoVendita,tessera,tipoAbbonamento);
+        GenericDAO ed = new GenericDAO(entityManager);
+        ed.save(abbonamento);
+        try {
+          abbonamentoSalvato= ed.findById(Abbonamento.class,abbonamento.getId());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        System.out.println("il tuo abbonamento con id "+abbonamentoSalvato.getId()+" di tipo "+abbonamentoSalvato.getTipologiaAbbonamento()+" è stato creato con successo!!");
+        return abbonamentoSalvato;
+
     }
 
-        return new Abbonamento(dataEmissione,puntoVendita,tessera, tipoAbbonamento );
-
+    public Biglietti rinnovoAbbonamento (Abbonamento abbonamento){
+        if(abbonamento.getTipologiaAbbonamento()==TipologiaAbbonamento.MENSILE){LocalDate rinnovoMese=abbonamento.setDataScadenza(LocalDate.now().plusMonths(1));}else{       LocalDate rinnovo=abbonamento.setDataScadenza(LocalDate.now().plusYears(1));};
+        System.out.println("Abbonamento rinnovato fino al "+abbonamento.getDataScadenza());
+        return abbonamento;
     }
+
+
 
 
 }

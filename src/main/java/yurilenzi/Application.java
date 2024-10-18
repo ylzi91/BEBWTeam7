@@ -19,6 +19,8 @@ public class Application {
 
     public static void main(String[] args) {
         System.out.println("Hello World!");
+        Util.saveFakeTratte(20);
+        Util.SaveMezzi();
         AvvioDAO.avvio();
 
 
